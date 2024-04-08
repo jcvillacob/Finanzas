@@ -1,9 +1,12 @@
 <div class="p-6 max-w-md mx-auto h-full">
-  <h2 class="text-xl font-bold text-[#274C77] mb-4">Resumen de Cuentas</h2>
+  <h2 class="text-xl font-bold text-[#274C77] mb-4">Resumen de Gastos Recurrentes</h2>
   <ul>
-    <li *ngFor="let cuenta of cuentas" class="mb-3 p-4 rounded-md flex justify-around items-center">
-      <span class="text-[#1c3757] font-medium">{{ cuenta.nombre }}</span>
-      <span class="text-[#6096BA] font-semibold">{{ cuenta.valor }}</span>
+    <li *ngFor="let gasto of gastos" class="mb-3 p-4 rounded-md flex justify-between items-center">
+      <div class="flex justify-start items-center gap-5">
+        <i class="text-[#1c3757] text-2xl" [ngClass]="gasto.icono"></i>
+        <span class="text-[#1c3757] font-medium">{{ gasto.nombre }}</span>
+      </div>
+      <span class="text-[#6096BA] font-semibold">{{ gasto.valor }}</span>
     </li>
   </ul>
 </div>

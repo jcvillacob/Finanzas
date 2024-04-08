@@ -1,0 +1,25 @@
+<div class="p-6 h-full">
+  <h2 class="text-xl font-bold text-[#274C77] mb-4">Últimas transacciones</h2>
+  <ul class="w-full">
+    <li *ngFor="let transaccion of transacciones"
+      class="flex justify-around items-center w-full px-4 py-2 border-b border-gray-200">
+      <div class="text-red-500 mr-2" *ngIf="transaccion.tipo === 'Gasto'">
+        <i class="fa-solid fa-arrow-down"></i>
+      </div>
+      <div class="text-green-500 mr-2" *ngIf="transaccion.tipo === 'Ingreso'">
+        <i class="fa-solid fa-arrow-up"></i>
+      </div>
+      <div class="flex-1 min-w-0">
+        <p class="text-sm font-medium text-gray-900 truncate">
+          {{ transaccion.nombre }}
+        </p>
+        <p class="text-sm text-gray-500">
+          {{ transaccion.fecha | date:'shortTime' }}
+        </p>
+      </div>
+      <div class="text-sm text-gray-900">
+        {{ transaccion.cantidad | currency }}
+      </div>
+    </li>
+  </ul>
+</div>
