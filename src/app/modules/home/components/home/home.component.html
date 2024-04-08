@@ -1,14 +1,74 @@
-<div class="w-full flex flex-wrap justify-center">
-  <div class="md:w-1/2 w-full p-4">
-    <canvas #chartCanvas id="chartCanvas1" class="bg-white rounded-xl w-full"></canvas>
+<div class="w-full flex flex-wrap  justify-center">
+  <h1 class="text-3xl font-semibold text-gray-700 text-left w-full pl-14 mb-5">Dashboard</h1>
+
+  <div class="w-full flex flex-wrap justify-center">
+    <div class="md:w-1/4 w-full p-4">
+      <div class="bg-white rounded-xl p-2 py-5 h-full flex flex-col justify-center items-center gap-2">
+        <h2 class="text-xl font-bold text-gray-700">Saldo Actual</h2>
+        <span class="text-xl">$ 550.000</span>
+      </div>
+    </div>
+    <div class="md:w-1/4 w-full p-4">
+      <div class="bg-white rounded-xl p-2 py-5 h-full flex flex-col justify-center items-center gap-2">
+        <h2 class="text-xl font-bold text-gray-700">Gastos Actuales</h2>
+        <span class="text-xl">$ 550.000</span>
+      </div>
+    </div>
+    <div class="md:w-1/4 w-full p-4">
+      <div class="bg-white rounded-xl p-2 py-5 h-full flex flex-col justify-center items-center gap-2">
+        <h2 class="text-xl font-bold text-gray-700">Deuda Actual</h2>
+        <span class="text-xl">$ 550.000</span>
+      </div>
+    </div>
+    <div class="md:w-1/4 w-full p-4">
+      <div class="bg-white rounded-xl p-2 py-5 h-full flex flex-col justify-center items-center gap-2">
+        <h2 class="text-xl text-center font-bold text-gray-700">Cumplimiento Presupuesto</h2>
+        <span class="text-xl">$ 550.000</span>
+      </div>
+    </div>
   </div>
-  <div class="md:w-1/2 w-full p-4">
-    <canvas #chartCanvas2 id="chartCanvas2" class="bg-white rounded-xl w-full"></canvas>
+
+  <div class="w-full flex flex-wrap justify-center">
+    <div class="md:w-2/3 w-full p-4">
+      <div class="bg-white rounded-xl p-2 h-full flex justify-center items-center">
+        <canvas #chartCanvas id="chartCanvas1" class="w-full"></canvas>
+      </div>
+    </div>
+    <div class="md:w-1/3 w-full p-4">
+      <div class="bg-white rounded-xl p-2 h-full">
+        <app-resumen-cuentas></app-resumen-cuentas>
+      </div>
+    </div>
   </div>
-  <div class="md:w-1/2 w-full p-4">
-    <canvas #chartCanvas3 id="chartCanvas3" class="bg-white rounded-xl w-full"></canvas>
+
+  <div class="w-full flex flex-wrap justify-center">
+    <div class="md:w-1/3 w-full p-4">
+      <div class="bg-white rounded-xl p-2 h-full">
+        <app-resumen-categorias></app-resumen-categorias>
+      </div>
+    </div>
+    <div class="md:w-2/3  w-full p-4">
+      <div class="bg-white rounded-xl p-2 h-full flex justify-center items-center">
+        <canvas #chartCanvas3 id="chartCanvas3" class="w-full"></canvas>
+      </div>
+    </div>
   </div>
-  <div class="md:w-1/2 w-full p-4">
-    <canvas #chartCanvas4 id="chartCanvas4" class="bg-white rounded-xl w-full"></canvas>
+
+  <div class="w-full flex flex-wrap justify-center">
+    <div class="md:w-1/3  w-full p-4">
+      <div class="bg-white rounded-xl p-2 h-full">
+        <app-resumen-deudas></app-resumen-deudas>
+      </div>
+    </div>
+    <div class="md:w-1/3 w-full p-4">
+      <div class="bg-white rounded-xl p-2 h-full">
+        <app-resumen-gastos-recurrentes></app-resumen-gastos-recurrentes>
+      </div>
+    </div>
+    <div class="md:w-1/3 w-full p-4">
+      <div class="bg-white rounded-xl p-2 h-full">
+        <app-resumen-gastos-recurrentes></app-resumen-gastos-recurrentes>
+      </div>
+    </div>
   </div>
 </div>
