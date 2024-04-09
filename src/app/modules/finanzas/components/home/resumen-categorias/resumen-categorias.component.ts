@@ -9,10 +9,10 @@ import { Chart, registerables } from 'chart.js';
 export class ResumenCategoriasComponent implements AfterViewInit {
   @ViewChild('chartCanvas2') chartCanvas2!: ElementRef<HTMLCanvasElement>;
   categoriasData = [
-    { nombre: "Enero", valor: 300, color: 'rgb(255, 99, 132)' },
-    { nombre: "Febrero", valor: 50, color: 'rgb(54, 162, 235)' },
-    { nombre: "Marzo", valor: 100, color: 'rgb(255, 205, 86)' },
-    { nombre: "Abril", valor: 75, color: 'rgb(75, 192, 192)' }
+    { nombre: "Arriendo", valor: 300, color: 'rgb(255, 99, 132)' },
+    { nombre: "Comida", valor: 50, color: 'rgb(54, 162, 235)' },
+    { nombre: "Mecatos", valor: 100, color: 'rgb(255, 205, 86)' },
+    { nombre: "Ropa", valor: 75, color: 'rgb(75, 192, 192)' }
   ];
 
 

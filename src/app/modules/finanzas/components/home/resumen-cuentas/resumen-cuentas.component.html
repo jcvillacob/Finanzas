@@ -1,5 +1,8 @@
 <div class="p-6 max-w-md mx-auto h-full">
-  <h2 class="text-xl font-bold text-[#274C77] mb-4">Resumen de Cuentas</h2>
+  <div class="w-full flex justify-between">
+    <h2 class="text-xl font-bold text-[#274C77] mb-4">Resumen de Cuentas</h2>
+    <span routerLink="./cuentas" class="text-blue-800 text-md font-semibold hover:cursor-pointer text-">Ver Todo</span>
+  </div>
   <ul>
     <li *ngFor="let cuenta of cuentas" class="mb-3 p-4 rounded-md flex justify-between items-center">
       <div class="flex justify-start items-center gap-5">

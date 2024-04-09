@@ -1,5 +1,7 @@
 import { ChangeDetectorRef, Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
+import { initFlowbite } from 'flowbite';
+
 
 @Component({
   selector: 'app-home',
@@ -7,23 +9,21 @@ import { Chart, registerables } from 'chart.js';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements AfterViewInit {
-
   @ViewChild('chartCanvas2') chartCanvas2!: ElementRef<HTMLCanvasElement>;
-  /* @ViewChild('chartCanvas3') chartCanvas3!: ElementRef<HTMLCanvasElement>; */
+  modal = { movimiento: 'Gasto' };
 
   constructor(private cdr: ChangeDetectorRef) {
     Chart.register(...registerables);
   }
 
   ngAfterViewInit() {
-
+    initFlowbite();
     this.cdr.detectChanges();
   }
 
-
-
-
-
+  actualizarModal(movimiento: string) {
+    this.modal.movimiento = movimiento;
+  }
 
   createBarChart(canvas: ElementRef<HTMLCanvasElement>) {
     const context = canvas.nativeElement.getContext('2d');
