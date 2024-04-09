@@ -17,6 +17,8 @@ import { GastosComponent } from './components/gastos/gastos.component';
 import { GastosDiariosComponent } from './components/gastos/gastos-diarios/gastos-diarios.component';
 import { UltimosGastosComponent } from './components/gastos/ultimos-gastos/ultimos-gastos.component';
 import { ResumenGastosComponent } from './components/gastos/resumen-gastos/resumen-gastos.component';
+import { PresupuestoComponent } from './components/presupuesto/presupuesto.component';
+import { TransaccionesComponent } from './components/transacciones/transacciones.component';
 
 
 @NgModule({
@@ -34,7 +36,9 @@ import { ResumenGastosComponent } from './components/gastos/resumen-gastos/resum
     GastosComponent,
     GastosDiariosComponent,
     UltimosGastosComponent,
-    ResumenGastosComponent
+    ResumenGastosComponent,
+    PresupuestoComponent,
+    TransaccionesComponent
   ],
   imports: [
     CommonModule,

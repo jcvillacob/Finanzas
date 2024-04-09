@@ -485,4 +485,8 @@ export class GastosComponent {
     }
   }
 
+  goBack() {
+    window.history.back();
+  }
+
 }

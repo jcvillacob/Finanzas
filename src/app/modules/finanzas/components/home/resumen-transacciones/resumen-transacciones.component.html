@@ -1,5 +1,8 @@
-<div class="p-6 h-full">
-  <h2 class="text-xl font-bold text-[#274C77] mb-4">Últimas transacciones</h2>
+<div class="p-6 max-w-md mx-auto h-full">
+  <div class="w-full flex justify-between gap-4">
+    <h2 class="text-xl font-bold text-[#274C77] mb-4">Últimas transacciones</h2>
+    <span routerLink="./transacciones" class="text-blue-800 text-md font-semibold hover:cursor-pointer text-">Ver Todo</span>
+  </div>
   <ul class="w-full">
     <li *ngFor="let transaccion of transacciones"
       class="flex justify-around items-center w-full px-4 py-2 border-b border-gray-200">

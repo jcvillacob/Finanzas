@@ -37,4 +37,8 @@ export class CuentasComponent implements AfterViewInit {
   eliminarCuenta(index: number) {
     this.cuentas.splice(index, 1);
   }
+
+  goBack() {
+    window.history.back();
+  }
 }

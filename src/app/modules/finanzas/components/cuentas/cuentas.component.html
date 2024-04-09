@@ -1,5 +1,6 @@
 <div class="w-full mb-3">
-  <div class="w-12 h-12 rounded-full bg-gray-600 text-white flex justify-center items-center text-xl ml-14 hover:cursor-pointer">
+  <div (click)="goBack()"
+    class="w-12 h-12 rounded-full bg-gray-600 text-white flex justify-center items-center text-xl ml-14 hover:cursor-pointer">
     <i class="fa-solid fa-arrow-left"></i>
   </div>
 </div>
@@ -14,15 +15,18 @@
     </div>
   </div>
   <ul class="w-5/6 sm:w-4/5 mt-4 hover:cursor-pointer">
-    <li *ngFor="let cuenta of cuentas; index as i" id="transactionsModalButton" data-modal-target="transactionsModal" data-modal-toggle="transactionsModal"
-      class="mb-3 p-4 rounded-md flex justify-between items-center bg-white shadow" (click)="seleccionarCuenta(cuenta.Nombre)">
+    <li *ngFor="let cuenta of cuentas; index as i" id="transactionsModalButton" data-modal-target="transactionsModal"
+      data-modal-toggle="transactionsModal"
+      class="mb-3 p-4 rounded-md flex justify-between items-center bg-white shadow"
+      (click)="seleccionarCuenta(cuenta.Nombre)">
       <div class="flex justify-start items-center gap-5">
         <i class="{{cuenta.Icono}} text-[#1c3757] text-2xl"></i>
         <span class="text-[#1c3757] font-medium">{{ cuenta.Nombre }}</span>
       </div>
       <div>
         <span class="text-[#6096BA] font-semibold">{{ cuenta.Saldo }}</span>
-        <button (click)="eliminarCuenta(i)" class="ml-4 text-red-500 hover:text-red-700 z-50" data-modal-toggle="transactionsModal">
+        <button (click)="eliminarCuenta(i)" class="ml-4 text-red-500 hover:text-red-700 z-50"
+          data-modal-toggle="transactionsModal">
           <i class="fa-solid fa-trash"></i>
         </button>
       </div>
