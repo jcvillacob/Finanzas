@@ -1,5 +1,8 @@
 <div class="p-6 max-w-md mx-auto h-full">
-  <h2 class="text-xl font-bold text-[#274C77] mb-4">Resumen de Metas</h2>
+  <div class="w-full flex justify-between">
+    <h2 class="text-xl font-bold text-[#274C77] mb-4">Metas</h2>
+    <span routerLink="./metas" class="text-blue-800 text-md font-semibold hover:cursor-pointer text-">Ver Todo</span>
+  </div>
   <ul>
     <li *ngFor="let meta of metas" class="mb-6">
       <div class="flex justify-between items-center mb-1">

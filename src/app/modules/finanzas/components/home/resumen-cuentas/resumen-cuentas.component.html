@@ -6,10 +6,10 @@
   <ul>
     <li *ngFor="let cuenta of cuentas" class="mb-3 p-4 rounded-md flex justify-between items-center">
       <div class="flex justify-start items-center gap-5">
-        <i class="text-[#1c3757] text-2xl" [ngClass]="cuenta.icono"></i>
-        <span class="text-[#1c3757] font-medium">{{ cuenta.nombre }}</span>
+        <i class="text-[#1c3757] text-2xl" [ngClass]="cuenta.Icono"></i>
+        <span class="text-[#1c3757] font-medium">{{ cuenta.Nombre }}</span>
       </div>
-      <span class="text-[#6096BA] font-semibold">{{ cuenta.valor }}</span>
+      <span class="text-[#6096BA] font-semibold">{{ cuenta.Saldo | currency }}</span>
     </li>
   </ul>
 </div>

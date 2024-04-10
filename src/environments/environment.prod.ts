@@ -1,4 +1,4 @@
 export const environment = {
-    apiUrl: 'http://localhost:4000/',
-    dev: false
+  apiURL: 'https://ctapp.coorditanques.com/colaboradoresback/api/v1/pruebas/',
+  dev: false
 };

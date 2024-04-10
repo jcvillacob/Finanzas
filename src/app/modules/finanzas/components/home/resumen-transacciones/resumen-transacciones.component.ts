@@ -7,12 +7,70 @@ import { Component } from '@angular/core';
 })
 export class ResumenTransaccionesComponent {
   transacciones = [
-    { nombre: 'Natasha Davi', tipo: 'Gasto', fecha: new Date(), cantidad: 75.88 },
-    { nombre: 'Natasha Davi', tipo: 'Ingreso', fecha: new Date(), cantidad: 75.88 },
-    { nombre: 'Natasha Davi', tipo: 'Gasto', fecha: new Date(), cantidad: 75.88 },
-    { nombre: 'Natasha Davi', tipo: 'Ingreso', fecha: new Date(), cantidad: 75.88 },
-    { nombre: 'Natasha Davi', tipo: 'Gasto', fecha: new Date(), cantidad: 75.88 },
-    { nombre: 'Natasha Davi', tipo: 'Ingreso', fecha: new Date(), cantidad: 75.88 },
-    // Más transacciones...
+    {
+      TransaccionID: 11,
+      CuentaID: 3,
+      CategoriaID: 1,
+      Tipo: 'Gasto',
+      Monto: 50000,
+      Fecha: '2024-04-05T15:00:00.000Z',
+      Descripcion: 'En la tienda de la esquina',
+      NombreCuenta: 'Davivienda',
+      IconoCuenta: 'fa-solid fa-building-columns',
+      NombreCategoria: 'Arriendo',
+      IconoCategoria: 'fa-solid fa-van-shuttle'
+    },
+    {
+      TransaccionID: 11,
+      CuentaID: 3,
+      CategoriaID: 1,
+      Tipo: 'Gasto',
+      Monto: 50000,
+      Fecha: '2024-04-05T15:00:00.000Z',
+      Descripcion: 'En la tienda de la esquina',
+      NombreCuenta: 'Davivienda',
+      IconoCuenta: 'fa-solid fa-building-columns',
+      NombreCategoria: 'Arriendo',
+      IconoCategoria: 'fa-solid fa-van-shuttle'
+    },
+    {
+      TransaccionID: 11,
+      CuentaID: 3,
+      CategoriaID: 1,
+      Tipo: 'Gasto',
+      Monto: 50000,
+      Fecha: '2024-04-05T15:00:00.000Z',
+      Descripcion: 'En la tienda de la esquina',
+      NombreCuenta: 'Davivienda',
+      IconoCuenta: 'fa-solid fa-building-columns',
+      NombreCategoria: 'Arriendo',
+      IconoCategoria: 'fa-solid fa-van-shuttle'
+    },
+    {
+      TransaccionID: 11,
+      CuentaID: 3,
+      CategoriaID: 1,
+      Tipo: 'Gasto',
+      Monto: 50000,
+      Fecha: '2024-04-05T15:00:00.000Z',
+      Descripcion: 'En la tienda de la esquina',
+      NombreCuenta: 'Davivienda',
+      IconoCuenta: 'fa-solid fa-building-columns',
+      NombreCategoria: 'Transporte de carga',
+      IconoCategoria: 'fa-solid fa-van-shuttle'
+    },
+    {
+      TransaccionID: 11,
+      CuentaID: 3,
+      CategoriaID: 1,
+      Tipo: 'Gasto',
+      Monto: 50000,
+      Fecha: '2024-04-05T15:00:00.000Z',
+      Descripcion: 'En la tienda de la esquina',
+      NombreCuenta: 'Davivienda',
+      IconoCuenta: 'fa-solid fa-building-columns',
+      NombreCategoria: 'Arriendo',
+      IconoCategoria: 'fa-solid fa-van-shuttle'
+    }
   ];
 }

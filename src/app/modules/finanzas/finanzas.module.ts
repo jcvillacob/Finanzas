@@ -19,6 +19,10 @@ import { UltimosGastosComponent } from './components/gastos/ultimos-gastos/ultim
 import { ResumenGastosComponent } from './components/gastos/resumen-gastos/resumen-gastos.component';
 import { PresupuestoComponent } from './components/presupuesto/presupuesto.component';
 import { TransaccionesComponent } from './components/transacciones/transacciones.component';
+import { DeudasComponent } from './components/deudas/deudas.component';
+import { RecurrentesComponent } from './components/recurrentes/recurrentes.component';
+import { MetasComponent } from './components/metas/metas.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -38,11 +42,15 @@ import { TransaccionesComponent } from './components/transacciones/transacciones
     UltimosGastosComponent,
     ResumenGastosComponent,
     PresupuestoComponent,
-    TransaccionesComponent
+    TransaccionesComponent,
+    DeudasComponent,
+    RecurrentesComponent,
+    MetasComponent
   ],
   imports: [
     CommonModule,
-    FinanzasRoutingModule
+    FinanzasRoutingModule,
+    FormsModule
   ]
 })
 export class FinanzasModule { }

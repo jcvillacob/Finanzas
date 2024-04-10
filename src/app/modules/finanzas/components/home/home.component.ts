@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 import { initFlowbite } from 'flowbite';
+import { FinanzasServiceService } from '../../services/finanzas-service.service';
 
 
 @Component({
@@ -11,9 +12,19 @@ import { initFlowbite } from 'flowbite';
 export class HomeComponent implements AfterViewInit {
   @ViewChild('chartCanvas2') chartCanvas2!: ElementRef<HTMLCanvasElement>;
   modal = { movimiento: 'Gasto' };
+  saldoActual!: number;
 
-  constructor(private cdr: ChangeDetectorRef) {
+  constructor(private cdr: ChangeDetectorRef, private finanzasService: FinanzasServiceService) {
     Chart.register(...registerables);
+    this.getCuentas();
+  }
+
+  getCuentas() {
+    this.finanzasService.getCuentas().subscribe(data => {
+      data.map(c => {
+        this.saldoActual += c.Saldo;
+      });
+    })
   }
 
   ngAfterViewInit() {

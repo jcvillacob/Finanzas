@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FinanzasServiceService } from '../../../services/finanzas-service.service';
 
 @Component({
   selector: 'app-resumen-cuentas',
@@ -6,11 +7,15 @@ import { Component } from '@angular/core';
   styleUrls: ['./resumen-cuentas.component.scss']
 })
 export class ResumenCuentasComponent {
-  cuentas = [
-    { nombre: 'Nequi', valor: '$1,500', icono: 'fa-solid fa-mobile-screen' },
-    { nombre: 'Davivienda', valor: '$4,200', icono: 'fa-solid fa-building-columns' },
-    { nombre: 'Daviplata', valor: '$1,500', icono: 'fa-solid fa-mobile-screen' },
-    { nombre: 'Efectivo', valor: '$4,200', icono: 'fa-solid fa-wallet' },
-    { nombre: 'Bancolombia', valor: '$1,500', icono: 'fa-solid fa-building-columns' }
-  ];
+  cuentas!: any[];
+
+  constructor(private finanzasService: FinanzasServiceService) {
+    this.getCuentas();
+  }
+
+  getCuentas() {
+    this.finanzasService.getCuentas().subscribe(data => {
+      this.cuentas = data;
+    })
+  }
 }
