@@ -1,5 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
+import { FinanzasServiceService } from '../../../services/finanzas-service.service';
 
 @Component({
   selector: 'app-resumen-categorias',
@@ -8,25 +9,42 @@ import { Chart, registerables } from 'chart.js';
 })
 export class ResumenCategoriasComponent implements AfterViewInit {
   @ViewChild('chartCanvas2') chartCanvas2!: ElementRef<HTMLCanvasElement>;
-  categoriasData = [
-    { nombre: "Arriendo", valor: 300, color: 'rgb(255, 99, 132)' },
-    { nombre: "Comida", valor: 50, color: 'rgb(54, 162, 235)' },
-    { nombre: "Mecatos", valor: 100, color: 'rgb(255, 205, 86)' },
-    { nombre: "Ropa", valor: 75, color: 'rgb(75, 192, 192)' }
-  ];
+  categoriasData: any[] = [];
 
-
-  constructor(private cdr: ChangeDetectorRef) {
+  constructor(private cdr: ChangeDetectorRef, private finanzasService: FinanzasServiceService) {
     Chart.register(...registerables);
+    this.finanzasService.getGastosMes().subscribe(data => {
+      this.processData(data);
+    });
   }
 
   ngAfterViewInit() {
-    this.createPieChart(this.chartCanvas2);
     this.cdr.detectChanges();
   }
 
-  createPieChart(canvas: ElementRef<HTMLCanvasElement>) {
-    const context = canvas.nativeElement.getContext('2d');
+  processData(data: any[]) {
+    // Agrupando datos por categoría
+    const groupedData = data.reduce((acc, curr) => {
+      const found = acc.find((item: any) => item.nombre === curr.NombreCategoria);
+      if (found) {
+        found.valor += curr.Monto;
+      } else {
+        acc.push({
+          nombre: curr.NombreCategoria,
+          valor: curr.Monto,
+          color: curr.ColorCategoria
+        });
+      }
+      return acc;
+    }, []);
+
+    this.categoriasData = groupedData;
+    this.createPieChart();
+  }
+
+  createPieChart() {
+    const canvas = this.chartCanvas2.nativeElement;
+    const context = canvas.getContext('2d');
     if (context) {
       new Chart(context, {
         type: 'doughnut',
@@ -34,15 +52,11 @@ export class ResumenCategoriasComponent implements AfterViewInit {
           labels: this.categoriasData.map(c => c.nombre),
           datasets: [{
             data: this.categoriasData.map(c => c.valor),
-            backgroundColor: [
-              'rgb(255, 99, 132)',
-              'rgb(54, 162, 235)',
-              'rgb(255, 205, 86)',
-              'rgb(75, 192, 192)'
-            ],
+            backgroundColor: this.categoriasData.map(c => c.color),
           }]
         },
         options: {
+          responsive: true,
           plugins: {
             legend: { display: false }
           }
@@ -50,5 +64,4 @@ export class ResumenCategoriasComponent implements AfterViewInit {
       });
     }
   }
-
 }

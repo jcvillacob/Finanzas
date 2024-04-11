@@ -1,4 +1,6 @@
 <div class="w-full flex flex-wrap justify-center">
+
+  <!-- Cabeceras -->
   <div class="w-full flex flex-col justify-between items-center md:flex-row">
     <h1 class="text-3xl font-semibold text-gray-700 text-left w-full pl-14 mb-5">Dashboard</h1>
     <div class="flex flex-col justify-center gap-3 sm:pr-14 sm:flex-row mt-2 md:mt-0 sm:w-auto w-4/5 mx-auto">
@@ -25,19 +27,19 @@
     <div class="md:w-1/4 w-full p-4">
       <div class="bg-white rounded-xl p-2 py-5 h-full flex flex-col justify-center items-center gap-2">
         <h2 class="text-xl font-bold text-[#274C77] mb-2">Gastos Mes</h2>
-        <span class="text-xl">$ 550.000</span>
+        <span class="text-xl">{{ gastosMes | currency }}</span>
       </div>
     </div>
     <div class="md:w-1/4 w-full p-4">
       <div class="bg-white rounded-xl p-2 py-5 h-full flex flex-col justify-center items-center gap-2">
         <h2 class="text-xl font-bold text-[#274C77] mb-2">Deuda Actual</h2>
-        <span class="text-xl">$ 550.000</span>
+        <span class="text-xl">{{ deudas | currency }}</span>
       </div>
     </div>
     <div class="md:w-1/4 w-full p-4">
       <div class="bg-white rounded-xl p-2 py-5 h-full flex flex-col justify-center items-center gap-2">
         <h2 class="text-xl font-bold text-[#274C77] mb-2">Presupuesto</h2>
-        <span class="text-xl">$ 550.000</span>
+        <span class="text-xl">{{ cumplimientoPresupuesto }} %</span>
       </div>
     </div>
   </div>
@@ -120,61 +122,52 @@
         </button>
       </div>
       <!-- Modal body -->
-      <form action="#">
+      <form action="#" (ngSubmit)="crearTransaccion()">
         <div class="grid gap-4 mb-4 sm:grid-cols-2">
           <div>
             <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fecha</label>
-            <input type="datetime-local"
+            <input type="datetime-local" [(ngModel)]="fechaTransaccion" name="fecha"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
           </div>
           <div>
             <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cuenta</label>
-            <select id="category"
+            <select id="category" [(ngModel)]="cuentaTransaccion" name="cuenta"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-              <option selected="">Seleccionar cuenta</option>
-              <option value="TV">Davivienda</option>
-              <option value="PC">Nequi</option>
-              <option value="GA">Daviplata</option>
-              <option value="PH">Bancolombia</option>
+              <option selected="" disabled>Seleccionar cuenta</option>
+              <option [value]="cuenta.CuentaID" *ngFor="let cuenta of cuentas">{{ cuenta.Nombre }}</option>
             </select>
           </div>
           <div>
             <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Monto</label>
-            <input type="number" name="price" id="price"
+            <input type="number" name="monto" id="monto" [(ngModel)]="montoTransaccion"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              placeholder="$2999" required="">
+              placeholder="$30.000" required="">
           </div>
           <div  *ngIf="modal.movimiento !== 'Transferencia'">
-            <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Categoria</label>
-            <select id="category"
+            <label for="categoria" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Categoria</label>
+            <select id="categoria" [(ngModel)]="categoriaTransaccion" name="categoria"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-              <option selected="">Seleccionar categoria</option>
-              <option value="TV">Arriendo</option>
-              <option value="PC">Alimentacion</option>
-              <option value="GA">Gaming/Console</option>
-              <option value="PH">Phones</option>
+              <option selected="" disabled>Seleccionar categoria</option>
+              <option [value]="categoria.CategoriaID" *ngFor="let categoria of categoriasSelected">{{ categoria.Nombre }}</option>
             </select>
           </div>
           <div *ngIf="modal.movimiento === 'Transferencia'">
-            <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cuenta llegada</label>
-            <select id="category"
+            <label for="cuenta2" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cuenta llegada</label>
+            <select id="cuenta2" [(ngModel)]="cuenta2Transaccion" name="cuenta2"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-              <option selected="">Seleccionar cuenta</option>
-              <option value="TV">Davivienda</option>
-              <option value="PC">Nequi</option>
-              <option value="GA">Daviplata</option>
-              <option value="PH">Bancolombia</option>
+              <option selected="" disabled>Seleccionar cuenta</option>
+              <option [value]="cuenta.CuentaID" *ngFor="let cuenta of cuentas">{{ cuenta.Nombre }}</option>
             </select>
           </div>
           <div class="sm:col-span-2">
             <label for="description"
               class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Descripción</label>
-            <textarea id="description" rows="4"
+            <textarea id="description" rows="4" [(ngModel)]="descripcionTransaccion" name="descripcion"
               class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              placeholder="Write product description here"></textarea>
+              placeholder="Escribe una descripción del movimiento"></textarea>
           </div>
         </div>
-        <button type="submit"
+        <button type="submit" data-modal-toggle="gastoModal"
           class="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
           <svg class="mr-1 -ml-1 w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd"

@@ -1,6 +1,9 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 import annotationPlugin from 'chartjs-plugin-annotation';
+import { initFlowbite } from 'flowbite';
+import { FinanzasServiceService } from '../../services/finanzas-service.service';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -11,6 +14,12 @@ import annotationPlugin from 'chartjs-plugin-annotation';
 export class GastosComponent {
   @ViewChild('chartGastos') chartGastos!: ElementRef<HTMLCanvasElement>;
   @ViewChild('chartGastosB') chartGastosB!: ElementRef<HTMLCanvasElement>;
+
+  /* Para crear Categoria */
+  nombreCategoria!: string;
+  tipoCategoria!: string;
+  selectedColor: string = '#412569';
+  iconoCategoria!: string;
   datos = {
     saldoTotal: 3250,
     transacciones: [
@@ -347,7 +356,7 @@ export class GastosComponent {
     ]
   };
 
-  constructor() {
+  constructor(private finanzasService: FinanzasServiceService) {
     Chart.register(...registerables, annotationPlugin);
   }
 
@@ -355,6 +364,7 @@ export class GastosComponent {
     const { labels, data } = this.processData(this.datos.transacciones);
     this.createLineChart(this.chartGastos, labels, data);
     this.createBarChart(this.chartGastosB);
+    initFlowbite();
   }
 
   processData(transacciones: any[]): { labels: string[], data: number[] } {
@@ -374,6 +384,33 @@ export class GastosComponent {
     const data = labels.map(label => gastosPorDia.get(label));
 
     return { labels, data };
+  }
+
+  crearCategoria() {
+    const data = {
+      nombre: this.nombreCategoria,
+      tipo: this.tipoCategoria,
+      icono: this.iconoCategoria,
+      color: this.selectedColor
+    };
+    if (this.nombreCategoria && this.tipoCategoria && this.iconoCategoria && this.selectedColor) {
+      this.finanzasService.createCategoria(data).subscribe(data => {
+        Swal.fire(
+          'Categoría Creada',
+          `La categoría ${this.nombreCategoria} ha sido creada exitosamente.`,
+          'success'
+        )
+        this.nombreCategoria = '';
+        this.tipoCategoria = '';
+        this.iconoCategoria = '';
+      })
+    } else {
+      Swal.fire(
+        'Debes Ingresar Todos los datos',
+        `La categoría ${this.nombreCategoria} No ha sido creada.`,
+        'error'
+      )
+    }
   }
 
   createLineChart(canvas: ElementRef<HTMLCanvasElement>, labels: string[], data: number[]): void {
@@ -438,7 +475,6 @@ export class GastosComponent {
     }
   }
 
-
   createBarChart(canvas: ElementRef<HTMLCanvasElement>) {
     const context = canvas.nativeElement.getContext('2d');
     if (context) {
@@ -483,6 +519,10 @@ export class GastosComponent {
         },
       });
     }
+  }
+
+  updateInputColor(event: Event) {
+    this.selectedColor = (event.target as HTMLInputElement).value;
   }
 
   goBack() {
