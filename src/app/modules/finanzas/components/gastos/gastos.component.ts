@@ -357,13 +357,16 @@ export class GastosComponent {
   };
 
   constructor(private finanzasService: FinanzasServiceService) {
+    this.finanzasService.getTransaccionByUser().subscribe(dato => {
+      this.datos.transacciones = dato.filter(t => t.Tipo === 'Gasto');
+      const { labels, data } = this.processData(this.datos.transacciones);
+      this.createLineChart(this.chartGastos, labels, data);
+      this.createBarChart(this.chartGastosB);
+    });
     Chart.register(...registerables, annotationPlugin);
   }
 
   ngAfterViewInit(): void {
-    const { labels, data } = this.processData(this.datos.transacciones);
-    this.createLineChart(this.chartGastos, labels, data);
-    this.createBarChart(this.chartGastosB);
     initFlowbite();
   }
 
@@ -450,7 +453,7 @@ export class GastosComponent {
             }
           },
           plugins: {
-            legend: { display: true },
+            legend: { display: false },
             annotation: {
               annotations: {
                 promedioGastos: {

@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 import 'chartjs-adapter-date-fns';
+import { FinanzasServiceService } from '../../../services/finanzas-service.service';
 
 @Component({
   selector: 'app-resumen-saldo',
@@ -9,156 +10,56 @@ import 'chartjs-adapter-date-fns';
 })
 export class ResumenSaldoComponent implements AfterViewInit {
   @ViewChild('chartCanvas') chartCanvas!: ElementRef<HTMLCanvasElement>;
-  datos = {
-    saldoTotal: 3250,
-    transacciones: [
-      {
-        fecha: '2024-03-09',
-        monto: 500,
-        tipo: 'ingreso',
-      },
-      {
-        fecha: '2024-03-10',
-        monto: 200,
-        tipo: 'gasto',
-      },
-      {
-        fecha: '2024-03-11',
-        monto: 100,
-        tipo: 'ingreso',
-      },
-      {
-        fecha: '2024-03-12',
-        monto: 350,
-        tipo: 'gasto',
-      },
-      {
-        fecha: '2024-03-13',
-        monto: 700,
-        tipo: 'ingreso',
-      },
-      {
-        fecha: '2024-03-14',
-        monto: 50,
-        tipo: 'gasto',
-      },
-      {
-        fecha: '2024-03-15',
-        monto: 100,
-        tipo: 'ingreso',
-      },
-      {
-        fecha: '2024-03-16',
-        monto: 150,
-        tipo: 'gasto',
-      },
-      {
-        fecha: '2024-03-17',
-        monto: 200,
-        tipo: 'ingreso',
-      },
-      {
-        fecha: '2024-03-18',
-        monto: 300,
-        tipo: 'gasto',
-      },
-      {
-        fecha: '2024-03-19',
-        monto: 250,
-        tipo: 'ingreso',
-      },
-      {
-        fecha: '2024-03-20',
-        monto: 450,
-        tipo: 'gasto',
-      },
-      {
-        fecha: '2024-03-21',
-        monto: 150,
-        tipo: 'ingreso',
-      },
-      {
-        fecha: '2024-03-22',
-        monto: 200,
-        tipo: 'gasto',
-      },
-      {
-        fecha: '2024-03-23',
-        monto: 300,
-        tipo: 'ingreso',
-      },
-      {
-        fecha: '2024-03-24',
-        monto: 100,
-        tipo: 'gasto',
-      },
-      {
-        fecha: '2024-03-25',
-        monto: 200,
-        tipo: 'ingreso',
-      },
-      {
-        fecha: '2024-03-26',
-        monto: 50,
-        tipo: 'gasto',
-      },
-      {
-        fecha: '2024-03-27',
-        monto: 400,
-        tipo: 'ingreso',
-      },
-      {
-        fecha: '2024-03-28',
-        monto: 100,
-        tipo: 'gasto',
-      },
-      {
-        fecha: '2024-03-29',
-        monto: 300,
-        tipo: 'ingreso',
-      },
-      {
-        fecha: '2024-03-30',
-        monto: 150,
-        tipo: 'gasto',
-      },
-    ],
-  };
+  saldoTotal!: number;
+  transacciones: any[] = [];
 
-  constructor() {
+  constructor(private finanzasService: FinanzasServiceService) {
+    this.getDatos();
     Chart.register(...registerables);
   }
 
   ngAfterViewInit(): void {
-    this.createLineChart(this.chartCanvas);
+  }
+
+  getDatos() {
+    this.finanzasService.getCuentas().subscribe(data => {
+      this.saldoTotal = data.reduce((acc, curr) => acc + curr.Saldo, 0);
+      this.finanzasService.getTransaccionByUser().subscribe(data => {
+        this.transacciones = data;
+        this.createLineChart(this.chartCanvas);
+      });
+    });
   }
 
   createLineChart(canvas: ElementRef<HTMLCanvasElement>) {
     const context = canvas.nativeElement.getContext('2d');
     if (context) {
       // Paso 1: Ordenar las transacciones por fecha en orden descendente.
-      const sortedTransactions = this.datos.transacciones.sort((a, b) =>
-        b.fecha.localeCompare(a.fecha)
+      const sortedTransactions = this.transacciones.sort((a, b) =>
+        b.Fecha.localeCompare(a.Fecha)
       );
 
-      // Paso 2: Calcular el saldo diario.
-      let saldo = this.datos.saldoTotal;
-      const saldosDiarios = sortedTransactions
-        .map((transaccion) => {
-          if (transaccion.tipo === 'ingreso') {
-            saldo -= transaccion.monto; // Restar al saldo si es ingreso ya que vamos en reversa
-          } else {
-            saldo += transaccion.monto; // Sumar al saldo si es gasto
-          }
-          return { fecha: transaccion.fecha, saldo };
-        })
-        .reverse(); // Invertir para tener los datos en orden cronológico
+      // Paso 2: Calcular el saldo diario de manera correcta.
+      let saldo = this.saldoTotal;
 
-      // Paso 3: Generar las etiquetas (fechas) y los datos (saldos) para el gráfico
-      const labels = saldosDiarios.map((d) => d.fecha);
-      const data = saldosDiarios.map((d) => d.saldo);
+      const saldosDiarios: any[] = [];
+      sortedTransactions.forEach(transaccion => {
+        if (transaccion.Tipo === 'Ingreso') {
+          saldo -= transaccion.Monto; // Restar al saldo si es ingreso, vamos en reversa
+        } else if (transaccion.Tipo === 'Gasto') {
+          saldo += transaccion.Monto; // Sumar al saldo si es gasto
+        }
+        // Almacenar el saldo después de procesar cada transacción
+        saldosDiarios.push({ fecha: transaccion.Fecha, saldo: saldo });
+      });
 
-      // Paso 4: Configurar el gráfico
+      // No necesitamos revertir la lista, la graficamos como está, del más reciente al más antiguo
+      const labels = saldosDiarios.map(d => d.fecha);
+      let data = saldosDiarios.map(d => d.saldo);
+      data.unshift(this.saldoTotal);
+      data.pop();
+
+      // Paso 3: Configurar el gráfico
       new Chart(context, {
         type: 'line',
         data: {

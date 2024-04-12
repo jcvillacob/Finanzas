@@ -11,7 +11,7 @@ export class UltimosGastosComponent {
 
   constructor(private finanzasServices: FinanzasServiceService) {
     this.finanzasServices.getTransaccionByUser().subscribe(data => {
-      this.transacciones = data;
+      this.transacciones = data.filter(t => t.Tipo === 'Gasto');
     });
   }
 }

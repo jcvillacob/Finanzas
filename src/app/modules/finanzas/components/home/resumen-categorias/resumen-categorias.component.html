@@ -3,17 +3,17 @@
     <h2 class="text-xl font-bold text-[#274C77] mb-4">Gastos por Categorías</h2>
     <span routerLink="./gastos" class="text-blue-800 text-md font-semibold hover:cursor-pointer text-">Ver Todo</span>
   </div>
-  <div class="w-full flex flex-col justify-around items-center md:flex-col">
-    <div class=" w-1/2">
-      <canvas #chartCanvas2 id="chartCanvas2" class="w-full"></canvas>
+  <div class="w-full flex flex-col justify-between items-center md:flex-col h-5/6">
+    <div class="p-4">
+      <canvas #chartCanvas2 id="chartCanvas2" class="" [style.height]="'100%'"  [style.widht]="'100%'"></canvas>
     </div>
-    <div class="mt-4 w-2/5 h-full">
-      <ul class="text-right my-4">
+    <div class="mt-4 min-h-44">
+      <ul class="text-right my-1">
         <li *ngFor="let categoria of categoriasData; let i = index" class="flex justify-start py-1 pl-2 items-center">
           <span class="min-w-10 min-h-5 mr-2 inline-block rounded-full"
             [ngStyle]="{'background-color': categoriasData[i].color}"></span>
           <span class="mr-2">{{ categoria.nombre }}:</span>
-          <span class="font-semibold">{{ categoria.valor }}</span>
+          <span class="font-semibold">{{ categoria.valor | currency }}</span>
         </li>
       </ul>
     </div>
