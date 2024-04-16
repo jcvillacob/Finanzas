@@ -42,6 +42,10 @@ export class FinanzasServiceService {
     return this.http.post<any>(`${this.apiUrl}/transacciones`, data);
   }
 
+  deleteTransaccion(transaccionId: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/transacciones/${transaccionId}`);
+  }
+
   /* Transferencias */
   createTransferencia(data: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/transferencias`, data);
@@ -56,15 +60,31 @@ export class FinanzasServiceService {
     return this.http.post<any>(`${this.apiUrl}/deudas`, data);
   }
 
+  deleteDeuda(deudaId: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/deudas/${deudaId}`);
+  }
+
 
   /* Pagos Deudas */
   getPagosDeudas(deudaID: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/pago-deudas/${deudaID}`);
   }
 
+  createPagosDeudas(data: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/pago-deudas`, data);
+  }
+
   /* Presupuesto */
   getPresupuesto(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/presupuesto/usuario/1`);
+  }
+
+  createPresupuesto(data: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/presupuesto`, data);
+  }
+
+  deletePresupuesto(presupuestoId: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/presupuesto/${presupuestoId}`);
   }
 
 

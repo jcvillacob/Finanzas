@@ -41,7 +41,6 @@ export class MetasComponent implements AfterViewInit {
   getMetas() {
     this.finanzasService.getMetas().subscribe(data => {
       this.metas = data;
-      console.log(this.metas);
       this.metaSelected = data[0];
       this.getAvanceMeta(this.metaSelected.MetaAhorroID)
     });
@@ -77,8 +76,6 @@ export class MetasComponent implements AfterViewInit {
       descripcion: this.descripcion,
       usuarioID: 1
     }
-
-    console.log(data);
     this.finanzasService.crearMeta(data).subscribe(data => {
       this.getMetas();
       Swal.fire(
@@ -104,7 +101,6 @@ export class MetasComponent implements AfterViewInit {
       fecha: this.fechaAvance
     }
     this.finanzasService.crearAvanceMeta(data).subscribe(data => {
-      console.log(data);
       this.getMetas();
       Swal.fire(
         'Avance guardado',

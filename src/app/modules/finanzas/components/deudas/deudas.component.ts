@@ -22,6 +22,11 @@ export class DeudasComponent implements AfterViewInit {
   icono!: string;
   monto!: number;
 
+  /* Para pagar Deuda */
+  montoPago!: number;
+  deudaPago!: number;
+  fechaPago!: string;
+
   constructor(private finanzasService: FinanzasServiceService) {
     this.getDeudas();
     Chart.register(...registerables);
@@ -33,9 +38,8 @@ export class DeudasComponent implements AfterViewInit {
 
   getDeudas(){
     this.finanzasService.getDeudas().subscribe(data => {
-      this.deudas = data;
-      this.deudaSelected = data[0];
-      console.log(this.deudaSelected);
+      this.deudas = data.filter(d => d.MontoPendiente > 0);
+      this.deudaSelected = this.deudas[0];
       this.getPagosDeuda(this.deudaSelected.DeudaID)
     });
   }
@@ -43,8 +47,31 @@ export class DeudasComponent implements AfterViewInit {
   getPagosDeuda(deudaID: number) {
     this.finanzasService.getPagosDeudas(deudaID).subscribe(data => {
       this.pagosDeuda = data;
-      console.log(this.pagosDeuda);
       this.createLineChart(this.chartDeudas);
+    })
+  }
+
+  pagarDeuda() {
+    if (!this.montoPago || !this.deudaPago  || !this.fechaPago) {
+      Swal.fire(
+        'Debes Ingresar Todos los datos',
+        `El pago No ha sido registrado.`,
+        'error'
+      )
+      return
+    }
+    const data = {
+      monto: this.montoPago,
+      deudaID: this.deudaPago,
+      fecha: this.fechaPago
+    }
+    this.finanzasService.createPagosDeudas(data).subscribe(data => {
+      this.getDeudas();
+      Swal.fire(
+        'Pago Registrado',
+        `El pago ha sido registrado exitosamente.`,
+        'success'
+      )
     })
   }
 

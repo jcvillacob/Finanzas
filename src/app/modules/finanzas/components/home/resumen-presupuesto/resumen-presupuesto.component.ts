@@ -37,7 +37,6 @@ export class ResumenPresupuestoComponent {
           const porcentaje = Math.round(porcentajeI);
           return { ...categoria, porcentaje: porcentaje };
         });
-        console.log(this.categorias);
       });
     });
   }

@@ -75,6 +75,12 @@ export class CuentasComponent implements AfterViewInit {
         // Si el usuario confirma, procede con la eliminacion
         this.finanzasService.deleteCuenta(id).subscribe(data => {
           this.getCuentas();
+        }, (err) => {
+          Swal.fire(
+            'Cuenta NO Eliminada',
+            'La cuenta no ha podido ser eliminada.',
+            'warning'
+          )
         })
         Swal.fire(
           'Cuenta Eliminada',
