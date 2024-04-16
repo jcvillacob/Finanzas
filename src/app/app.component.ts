@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from './core/authentication/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'finanzasFront';
+  isLoggedIn$ = this.authService.isLoggedIn$;
+
+  constructor(private authService: AuthService) {}
 }
