@@ -17,7 +17,7 @@ export const loginGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: 
         }
         return true
       } else {
-        return false
+        return router.createUrlTree(['/login']);
       }
     })
   );
