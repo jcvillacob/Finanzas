@@ -7,7 +7,7 @@ import { FinanzasServiceService } from '../../../services/finanzas-service.servi
   styleUrls: ['./resumen-cuentas.component.scss']
 })
 export class ResumenCuentasComponent {
-  cuentas!: any[];
+  cuentas: any[] = [];
 
   constructor(private finanzasService: FinanzasServiceService) {
     this.getCuentas();

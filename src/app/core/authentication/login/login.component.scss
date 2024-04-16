@@ -1,0 +1,100 @@
+#fondo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-image: url('../../../../assets/fondoLogin.webp');
+  background-size: cover;
+  background-position: center center;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container__container {
+  /* width: 400px; */
+  /* height: 90%; */
+  padding: 40px 20px 20px 20px;
+  background-color: rgba(240, 253, 255, 0.336);
+  /* border-radius: 15px; */
+  box-shadow: 5px 5px 25px rgba(0, 0, 0, 0.425);
+  backdrop-filter: blur(5px);
+}
+
+.container__title {
+  width: 100%;
+}
+
+.title__text {
+  text-align: center;
+  font-size: 36px;
+  color: rgb(34, 33, 33);
+}
+
+.title__logo {
+  width: 100%;
+  max-width: 200px;
+}
+
+.container__container ,.container__form, .container__title {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+}
+
+
+/* FORM */
+.container__form {
+  margin-top: 0px;
+  width: 100%;
+}
+
+.form__title {
+  text-align: center;
+  font-size: 30px;
+  color: rgb(34, 33, 33);
+}
+
+.form__input {
+  width: 70%;
+  padding: 8px;
+  border: 0;
+  border-bottom: 1px solid #072A30;
+  background-color: transparent;
+  font-size: 16px;
+  position: relative;
+}
+
+.form__input:focus {
+  outline: 0;
+  border-bottom: 2px solid #072A30;
+}
+
+.form__input::placeholder {
+  color: #312e2e;
+}
+
+.form__button {
+  width: 50%;
+  padding: 12px;
+  border-radius: 7px;
+  border: 1px solid #072A30;
+  background-color: #072A30;
+  color: #fff;
+  margin-top: 20px;
+  transition: all 0.3s;
+}
+
+.form__button:hover {
+  transform: scale(1.04);
+  cursor: pointer;
+}
+
+.form__button:disabled {
+  cursor: inherit;
+  background-color: #041518;
+  transform: scale(1);
+}
