@@ -7,7 +7,7 @@ import { AuthService } from 'src/app/core/authentication/auth.service';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent {
-  nombre: string = '';
+  nombre: string = 'Juan Camilo';
   iniciales: string = '';
 
 
