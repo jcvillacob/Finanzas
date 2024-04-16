@@ -1,46 +1,14 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { initFlowbite } from 'flowbite';
+import { FinanzasServiceService } from '../../services/finanzas-service.service';
 
 @Component({
   selector: 'app-presupuesto',
   templateUrl: './presupuesto.component.html',
   styleUrls: ['./presupuesto.component.scss']
 })
-export class PresupuestoComponent implements AfterViewInit {
-  categorias = [
-    {
-      "CategoriaID": 1,
-      "Nombre": "Arriendo",
-      "Tipo": "Gasto",
-      "Icono": "fa-solid fa-house",
-      "Color": 'rgb(255, 99, 132)',
-      "Monto": 250000
-    },
-    {
-      "CategoriaID": 1,
-      "Nombre": "Transporte",
-      "Tipo": "Gasto",
-      "Icono": "fa-solid fa-van-shuttle",
-      "Color": 'rgb(54, 162, 235)',
-      "Monto": 150000
-    },
-    {
-      "CategoriaID": 1,
-      "Nombre": "Arriendo",
-      "Tipo": "Gasto",
-      "Icono": "fa-solid fa-house",
-      "Color": 'rgb(255, 205, 86)',
-      "Monto": 10000
-    },
-    {
-      "CategoriaID": 1,
-      "Nombre": "Arriendo",
-      "Tipo": "Gasto",
-      "Icono": "fa-solid fa-house",
-      "Color": 'rgb(75, 192, 192)',
-      "Monto": 180000
-    },
-  ];
+export class PresupuestoComponent implements AfterViewInit, OnInit {
+  categorias: any[] = [];
   transacciones = [
     { TransaccionID: 11, CuentaID: 3, CategoriaID: 1, Tipo: "Gasto", Monto: 50000, Fecha: "2024-04-05T15:00:00.000Z", Descripcion: "En la tienda de la esquina" },
     { TransaccionID: 12, CuentaID: 3, CategoriaID: null, Tipo: "Transferencia", Monto: -10000, Fecha: "2024-04-05T15:00:00.000Z", Descripcion: "En el cajero de Colombia hacia Cuenta 4" },
@@ -50,15 +18,54 @@ export class PresupuestoComponent implements AfterViewInit {
     { TransaccionID: 12, CuentaID: 3, CategoriaID: null, Tipo: "Transferencia", Monto: -10000, Fecha: "2024-04-05T15:00:00.000Z", Descripcion: "En el cajero de Colombia hacia Cuenta 4" },
   ];
 
+  constructor(private finanzasServices: FinanzasServiceService) { }
+
+
+  ngOnInit() {
+    this.obtenerCategoriasYGastos();
+  }
+
   ngAfterViewInit(): void {
-      initFlowbite();
+    initFlowbite();
   }
 
-  editarPresupuesto() {
-    
+  obtenerCategoriasYGastos() {
+    this.finanzasServices.getPresupuesto().subscribe(categorias => {
+      this.categorias = categorias;
+
+      // Ahora obtenemos los gastos del mes
+      this.finanzasServices.getGastosMes().subscribe(gastosMes => {
+        for (let categoria of this.categorias) {
+          categoria.transacciones = gastosMes.filter(g => g.CategoriaID === categoria.CategoriaID);
+        }
+        this.categorias = this.categorias.map(categoria => {
+          // Calculamos la suma de los montos para cada categoria
+          const montoTotal = gastosMes.filter(gasto => gasto.CategoriaID === categoria.CategoriaID)
+            .reduce((sum, current) => sum + current.Monto, 0);
+          // Añadimos el monto total a la categoria
+          return { ...categoria, Gasto: montoTotal };
+        });
+        // Después de agregar el monto a cada categoría, calculamos el monto máximo
+        const montoMaximo = Math.max(...this.categorias.map(categoria => categoria.Monto));
+        // Opcionalmente, podrías querer calcular y añadir el porcentaje de cada categoría basado en el monto máximo
+        this.categorias = this.categorias.map(categoria => {
+          const porcentajeI = (categoria.Gasto / categoria.Monto) * 100;
+          const porcentaje = Math.round(porcentajeI);
+          return { ...categoria, porcentaje: porcentaje };
+        });
+        console.log(this.categorias);
+      });
+    });
   }
 
-  goBack() {
-    window.history.back();
-  }
+
+
+
+editarPresupuesto() {
+
+}
+
+goBack() {
+  window.history.back();
+}
 }

@@ -52,6 +52,15 @@ export class FinanzasServiceService {
     return this.http.get<any[]>(`${this.apiUrl}/deudas/usuario/1`);
   }
 
+  createDeuda(data: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/deudas`, data);
+  }
+
+
+  /* Pagos Deudas */
+  getPagosDeudas(deudaID: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/pago-deudas/${deudaID}`);
+  }
 
   /* Presupuesto */
   getPresupuesto(): Observable<any[]> {
@@ -66,6 +75,24 @@ export class FinanzasServiceService {
 
   createCategoria(data: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/categorias`, data);
+  }
+
+  /* Metas */
+  getMetas(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/metas/usuario/1`);
+  }
+
+  crearMeta(data: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/metas`, data);
+  }
+
+  /* Avances Metas */
+  getAvancesMetas(metaID: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/avances-metas/${metaID}`);
+  }
+
+  crearAvanceMeta(data: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/avances-metas`, data);
   }
 
 }

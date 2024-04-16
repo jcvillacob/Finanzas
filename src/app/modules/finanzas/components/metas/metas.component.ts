@@ -1,5 +1,9 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
+import annotationPlugin from 'chartjs-plugin-annotation';
+import Swal from 'sweetalert2';
+import { FinanzasServiceService } from '../../services/finanzas-service.service';
+import { initFlowbite } from 'flowbite';
 
 @Component({
   selector: 'app-metas',
@@ -7,88 +11,133 @@ import { Chart, registerables } from 'chart.js';
   styleUrls: ['./metas.component.scss']
 })
 export class MetasComponent implements AfterViewInit {
-  @ViewChild('chartDeudas') chartDeudas!: ElementRef<HTMLCanvasElement>;
-  deudas = [
-    {
-      "DeudaID": 1,
-      "Nombre": "Tio de JD",
-      "Icono": 'fa-solid fa-user',
-      "MontoTotal": 1100000,
-      "MontoPendiente": 10000,
-      "FechaCreacion": "2024-04-05T15:00:00.000Z"
-    },
-    {
-      "DeudaID": 3,
-      "Nombre": "Bancolombia",
-      "Icono": 'fa-solid fa-credit-card',
-      "MontoTotal": 100000,
-      "MontoPendiente": 50000,
-      "FechaCreacion": "2024-04-05T15:00:00.000Z"
-    },
-    {
-      "DeudaID": 2,
-      "Nombre": "ICETEX",
-      "Icono": 'fa-solid fa-graduation-cap',
-      "MontoTotal": 1100000,
-      "MontoPendiente": 350000,
-      "FechaCreacion": "2024-04-05T15:00:00.000Z"
-    },
-  ];
+  @ViewChild('chartMetas') chartMetas!: ElementRef<HTMLCanvasElement>;
+  metas: any[] = [];
+  metaSelected!: any;
+  avancesMetas: any[] = [];
+  chartInstance: Chart | null = null;
 
-  pagosDeuda = [
-    {
-      "PagoDeudaID": 1,
-      "DeudaID": 2,
-      "Monto": 50000,
-      "Fecha": "2024-04-09T15:00:00.000Z"
-    },
-    {
-      "PagoDeudaID": 2,
-      "DeudaID": 2,
-      "Monto": 100000,
-      "Fecha": "2024-04-15T15:00:00.000Z"
-    },
-    {
-      "PagoDeudaID": 3,
-      "DeudaID": 2,
-      "Monto": 600000,
-      "Fecha": "2024-04-25T15:00:00.000Z"
-    }
-  ];
+  /* Para crear Meta */
+  nombre!: string;
+  fechaObjetivo!: string;
+  icono!: string;
+  monto!: number;
+  descripcion!: number;
 
-  constructor() {
-    Chart.register(...registerables);
+  /* Para guardar avance */
+  fechaAvance!: string;
+  montoAvance!: number;
+  metaAvance!: number;
+
+  constructor(private finanzasService: FinanzasServiceService) {
+    this.getMetas();
+    Chart.register(...registerables, annotationPlugin);
   }
 
   ngAfterViewInit(): void {
-    this.createLineChart(this.chartDeudas);
+    initFlowbite();
   }
 
-  transformData() {
+  getMetas() {
+    this.finanzasService.getMetas().subscribe(data => {
+      this.metas = data;
+      console.log(this.metas);
+      this.metaSelected = data[0];
+      this.getAvanceMeta(this.metaSelected.MetaAhorroID)
+    });
+  }
 
+  getAvanceMeta(MetaAhorroID: number) {
+    this.finanzasService.getAvancesMetas(MetaAhorroID).subscribe(data => {
+      this.avancesMetas = data;
+      this.createLineChart(this.chartMetas);
+    })
+  }
+
+  selecccionarMeta(metaAhorro: any) {
+    this.metaSelected = metaAhorro;
+    this.getAvanceMeta(metaAhorro.MetaAhorroID);
+  }
+
+  crearMeta() {
+    if (!this.fechaObjetivo || !this.monto || !this.nombre || !this.icono || !this.fechaObjetivo) {
+      Swal.fire(
+        'Debes Ingresar Todos los datos',
+        `La meta No ha sido creada.`,
+        'error'
+      )
+      return
+    }
+    const data = {
+      fechaCreacion: new Date().toISOString().toString(),
+      fechaObjetivo: this.fechaObjetivo,
+      montoObjetivo: this.monto,
+      nombre: this.nombre,
+      icono: this.icono,
+      descripcion: this.descripcion,
+      usuarioID: 1
+    }
+
+    console.log(data);
+    this.finanzasService.crearMeta(data).subscribe(data => {
+      this.getMetas();
+      Swal.fire(
+        'Meta Creada',
+        `La meta ha sido creada exitosamente.`,
+        'success'
+      )
+    })
+  }
+
+  crearAvance() {
+    if (!this.metaAvance || !this.montoAvance || !this.fechaAvance) {
+      Swal.fire(
+        'Debes Ingresar Todos los datos',
+        `El avance No ha sido registrado.`,
+        'error'
+      )
+      return
+    }
+    const data = {
+      metaAhorroID: this.metaAvance,
+      monto: this.montoAvance,
+      fecha: this.fechaAvance
+    }
+    this.finanzasService.crearAvanceMeta(data).subscribe(data => {
+      console.log(data);
+      this.getMetas();
+      Swal.fire(
+        'Avance guardado',
+        `el avance ha sido creada exitosamente.`,
+        'success'
+      )
+    })
   }
 
   createLineChart(canvas: ElementRef<HTMLCanvasElement>) {
     const context = canvas.nativeElement.getContext('2d');
     if (context) {
-      let saldoI = 1100000;
-      let saldo = 1100000;
-      let FechaCreacion = "2024-04-05T15:00:00.000Z";
-      const saldosDiarios = this.pagosDeuda
-        .map((transaccion) => {
-          saldo -= transaccion.Monto;
-          return { Fecha: transaccion.Fecha, saldo };
-        });
+      // Si ya existe una instancia de gráfico, la destruye
+      if (this.chartInstance) {
+        this.chartInstance.destroy();
+      }
 
-      // Paso 3: Generar las etiquetas (fechas) y los datos (saldos) para el gráfico
+      let objetivo = this.metaSelected.MontoObjetivo;
+      let inicial = 0;
+      let FechaCreacion = this.metaSelected.FechaCreacion;
+      const saldosDiarios = this.avancesMetas.map((transaccion) => {
+        inicial += transaccion.Monto;
+        return { Fecha: transaccion.Fecha, saldo: inicial };
+      });
+
       const labels = saldosDiarios.map(d => d.Fecha);
       const data = saldosDiarios.map((d) => d.saldo);
 
       labels.unshift(FechaCreacion);
-      data.unshift(saldoI);
+      data.unshift(0);
 
-      // Paso 4: Configurar el gráfico
-      new Chart(context, {
+      // Crea un nuevo gráfico y lo almacena en chartInstance
+      this.chartInstance = new Chart(context, {
         type: 'line',
         data: {
           labels,
@@ -120,6 +169,18 @@ export class MetasComponent implements AfterViewInit {
           },
           plugins: {
             legend: { display: false },
+            annotation: {
+              annotations: {
+                line1: {
+                  type: 'line',
+                  yMin: objetivo,
+                  yMax: objetivo,
+                  borderColor: 'rgb(255, 99, 132)',
+                  borderWidth: 2,
+                  borderDash: [10, 5]
+                }
+              }
+            }
           },
           responsive: true,
         },
@@ -130,5 +191,4 @@ export class MetasComponent implements AfterViewInit {
   goBack() {
     window.history.back();
   }
-
 }

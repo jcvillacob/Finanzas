@@ -4,15 +4,15 @@
     <span routerLink="./presupuesto" class="text-blue-800 text-md font-semibold hover:cursor-pointer text-">Ver Todo</span>
   </div>
   <ul>
-    <li *ngFor="let cuenta of presupuesto" class="mb-6">
+    <li *ngFor="let presupuesto of categorias" class="mb-6">
       <div class="flex justify-between items-center mb-1">
-        <span class="text-[#1c3757] font-medium">{{ cuenta.categoria }}</span>
-        <span class="text-[#386f94] font-semibold">{{ cuenta.monto | currency }}</span>
+        <span class="text-[#1c3757] font-medium">{{ presupuesto.NombreCategoria }}</span>
+        <span class="text-[#386f94] font-semibold">{{ presupuesto.Monto | currency }}</span>
       </div>
       <div class="w-full bg-gray-200 rounded-full h-2.5">
-        <div class="bg-[#ba6060] h-2.5 rounded-full" [style.width.%]="cuenta.cumplimiento"></div>
+        <div class="bg-[#ba6060] h-2.5 rounded-full" [style.width.%]="presupuesto.porcentaje"></div>
       </div>
-      <div class="text-right text-sm text-[#6096BA] font-semibold">{{ cuenta.cumplimiento }}%</div>
+      <div class="text-right text-sm text-[#6096BA] font-semibold">{{ presupuesto.porcentaje }}%</div>
     </li>
   </ul>
 </div>

@@ -1,12 +1,14 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
+import { FinanzasServiceService } from '../../services/finanzas-service.service';
+import { initFlowbite } from 'flowbite';
 
 @Component({
   selector: 'app-transacciones',
   templateUrl: './transacciones.component.html',
   styleUrls: ['./transacciones.component.scss'],
 })
-export class TransaccionesComponent {
-  transacciones = [
+export class TransaccionesComponent implements AfterViewInit {
+  transacciones: any[] = [
     {
       TransaccionID: 11,
       CuentaID: 3,
@@ -47,6 +49,16 @@ export class TransaccionesComponent {
       IconoCategoria: 'fa-solid fa-van-shuttle'
     }
   ];
+
+  constructor(private finanzasServices: FinanzasServiceService) {
+    this.finanzasServices.getTransaccionByUser().subscribe(data => {
+      this.transacciones = data;
+    });
+  }
+
+  ngAfterViewInit(): void {
+    initFlowbite()
+  }
 
   goBack() {
     window.history.back();
