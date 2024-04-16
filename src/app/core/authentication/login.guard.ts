@@ -10,11 +10,13 @@ export const loginGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: 
 
   return authService.isLoggedIn$.pipe(
     map(isLoggedIn => {
+      if(route.url[0].path === 'login' && isLoggedIn) {
+        return router.createUrlTree(['/finanzas']);
+      } else if (route.url[0].path === 'login' && !isLoggedIn) {
+        return true
+      }
+
       if (isLoggedIn) {
-        console.log(route.url[0].path);
-        if(route.url[0].path === 'login') {
-          return router.createUrlTree(['/finanzas']);
-        }
         return true
       } else {
         return router.createUrlTree(['/login']);
