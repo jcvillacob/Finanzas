@@ -2,6 +2,7 @@ import { AfterViewInit, Component } from '@angular/core';
 import { initFlowbite } from 'flowbite';
 import { FinanzasServiceService } from '../../services/finanzas-service.service';
 import Swal from 'sweetalert2';
+import { AuthService } from 'src/app/core/authentication/auth.service';
 
 @Component({
   selector: 'app-cuentas',
@@ -19,9 +20,11 @@ export class CuentasComponent implements AfterViewInit {
     { TransaccionID: 11, CuentaID: 3, CategoriaID: 1, Tipo: "Gasto", Monto: 50000, Fecha: "2024-04-05T15:00:00.000Z", Descripcion: "En la tienda de la esquina" },
     { TransaccionID: 12, CuentaID: 3, CategoriaID: null, Tipo: "Transferencia", Monto: -10000, Fecha: "2024-04-05T15:00:00.000Z", Descripcion: "En el cajero de Colombia hacia Cuenta 4" }
   ];
+  usuarioID!: number;
 
-  constructor(private finanzasService: FinanzasServiceService) {
+  constructor(private finanzasService: FinanzasServiceService, private authService: AuthService) {
     this.getCuentas();
+    this.usuarioID = this.authService.getUsuarioID();
   }
 
   ngAfterViewInit(): void {
@@ -50,7 +53,7 @@ export class CuentasComponent implements AfterViewInit {
 
   agregarCuenta() {
     let data = {
-      usuarioID: 1,
+      usuarioID: this.usuarioID,
       nombre: this.nombre,
       icono: this.icono,
       saldo: this.saldo,

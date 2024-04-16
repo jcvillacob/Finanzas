@@ -3,6 +3,7 @@ import { Chart, registerables } from 'chart.js';
 import { FinanzasServiceService } from '../../services/finanzas-service.service';
 import Swal from 'sweetalert2';
 import { initFlowbite } from 'flowbite';
+import { AuthService } from 'src/app/core/authentication/auth.service';
 
 @Component({
   selector: 'app-deudas',
@@ -15,6 +16,7 @@ export class DeudasComponent implements AfterViewInit {
   deudaSelected!: any;
   pagosDeuda: any[] = [];
   chartInstance: Chart | null = null;
+  usuarioID!: number;
 
   /* Para crear Deuda */
   nombre!: string;
@@ -27,8 +29,9 @@ export class DeudasComponent implements AfterViewInit {
   deudaPago!: number;
   fechaPago!: string;
 
-  constructor(private finanzasService: FinanzasServiceService) {
+  constructor(private finanzasService: FinanzasServiceService, private authService: AuthService) {
     this.getDeudas();
+    this.usuarioID = this.authService.getUsuarioID();
     Chart.register(...registerables);
   }
 
@@ -89,7 +92,7 @@ export class DeudasComponent implements AfterViewInit {
       montoTotal: this.monto,
       nombre: this.nombre,
       icono: this.icono,
-      usuarioID: 1
+      usuarioID: this.usuarioID
 
     }
     this.finanzasService.createDeuda(data).subscribe(data => {
