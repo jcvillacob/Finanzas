@@ -4,6 +4,9 @@
     <span routerLink="./transacciones" class="text-blue-800 text-md font-semibold hover:cursor-pointer text-">Ver
       Todo</span>
   </div>
+
+  <app-no-datos *ngIf="!transacciones.length"></app-no-datos>
+
   <ul class="w-full overflow-y-scroll" [style.max-height]="'480px'">
     <li *ngFor="let transaccion of transacciones"
       class="flex flex-col justify-between items-center w-full px-4 py-2 border-b border-gray-200">

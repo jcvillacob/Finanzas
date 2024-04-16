@@ -3,6 +3,9 @@
     <h2 class="text-xl font-bold text-[#274C77] mb-4">Metas</h2>
     <span routerLink="./metas" class="text-blue-800 text-md font-semibold hover:cursor-pointer text-">Ver Todo</span>
   </div>
+
+  <app-no-datos *ngIf="!metas.length"></app-no-datos>
+
   <ul class="overflow-y-scroll" [style.max-height]="'480px'">
     <li *ngFor="let meta of metas" class="mb-3 p-4 pb-0 rounded-md flex flex-col justify-between items-center">
       <div class="w-full flex justify-between hover:cursor-pointer">

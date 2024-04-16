@@ -3,6 +3,9 @@
     <h2 class="text-xl font-bold text-[#274C77] mb-4">Cumplimiento Presupuesto</h2>
     <span routerLink="./presupuesto" class="text-blue-800 text-md font-semibold hover:cursor-pointer text-">Ver Todo</span>
   </div>
+
+  <app-no-datos *ngIf="!categorias.length"></app-no-datos>
+
   <ul>
     <li *ngFor="let presupuesto of categorias" class="mb-6">
       <div class="flex justify-between items-center mb-1">

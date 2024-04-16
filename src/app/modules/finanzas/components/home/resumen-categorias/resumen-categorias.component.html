@@ -4,10 +4,12 @@
     <span routerLink="./gastos" class="text-blue-800 text-md font-semibold hover:cursor-pointer text-">Ver Todo</span>
   </div>
   <div class="w-full flex flex-col justify-between items-center md:flex-col h-5/6">
-    <div class="p-4">
+
+    <app-no-datos *ngIf="!categoriasData.length"></app-no-datos>
+    <div class="p-4" *ngIf="categoriasData.length">
       <canvas #chartCanvas2 id="chartCanvas2" class="" [style.height]="'100%'"  [style.widht]="'100%'"></canvas>
     </div>
-    <div class="mt-4 min-h-44">
+    <div class="mt-4 min-h-44" *ngIf="categoriasData.length">
       <ul class="text-right my-1">
         <li *ngFor="let categoria of categoriasData; let i = index" class="flex justify-start py-1 pl-2 items-center">
           <span class="min-w-10 min-h-5 mr-2 inline-block rounded-full"

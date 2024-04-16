@@ -23,6 +23,7 @@ import { DeudasComponent } from './components/deudas/deudas.component';
 import { RecurrentesComponent } from './components/recurrentes/recurrentes.component';
 import { MetasComponent } from './components/metas/metas.component';
 import { FormsModule } from '@angular/forms';
+import { NoDatosComponent } from './components/no-datos/no-datos.component';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import { FormsModule } from '@angular/forms';
     TransaccionesComponent,
     DeudasComponent,
     RecurrentesComponent,
-    MetasComponent
+    MetasComponent,
+    NoDatosComponent
   ],
   imports: [
     CommonModule,
