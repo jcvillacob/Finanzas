@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FinanzasServiceService } from '../../../services/finanzas-service.service';
 
 @Component({
   selector: 'app-resumen-metas',
@@ -6,10 +7,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./resumen-metas.component.scss']
 })
 export class ResumenMetasComponent {
-  metas = [
-    {nombre: 'Arriendo', cumplimiento: 100, monto: 150000},
-    {nombre: 'Transporte', cumplimiento: 80, monto: 150000},
-    {nombre: 'Comida', cumplimiento: 20, monto: 150000},
-    {nombre: 'Mecatos', cumplimiento: 50, monto: 150000}
-  ]
+  metas: any[] = [];
+
+  constructor(private finanzasService: FinanzasServiceService) {
+    this.finanzasService.getMetas().subscribe(data => {
+      this.metas = data.filter(m => m.MontoAhorrado < m.MontoObjetivo);
+    });
+  }
+
+
 }

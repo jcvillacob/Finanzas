@@ -19,7 +19,7 @@ export class ResumenGastosComponent implements OnInit {
 
   obtenerCategoriasYGastos() {
     this.finanzasServices.getCategorias().subscribe(categorias => {
-      this.categorias = categorias;
+      this.categorias = categorias.filter(c => c.Tipo === 'Gasto');
       // Ahora obtenemos los gastos del mes
       this.finanzasServices.getGastosMes().subscribe(gastosMes => {
         this.categorias = this.categorias.map(categoria => {

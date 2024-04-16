@@ -1,61 +1,115 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { initFlowbite } from 'flowbite';
+import { FinanzasServiceService } from '../../services/finanzas-service.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-presupuesto',
   templateUrl: './presupuesto.component.html',
   styleUrls: ['./presupuesto.component.scss']
 })
-export class PresupuestoComponent implements AfterViewInit {
-  categorias = [
-    {
-      "CategoriaID": 1,
-      "Nombre": "Arriendo",
-      "Tipo": "Gasto",
-      "Icono": "fa-solid fa-house",
-      "Color": 'rgb(255, 99, 132)',
-      "Monto": 250000
-    },
-    {
-      "CategoriaID": 1,
-      "Nombre": "Transporte",
-      "Tipo": "Gasto",
-      "Icono": "fa-solid fa-van-shuttle",
-      "Color": 'rgb(54, 162, 235)',
-      "Monto": 150000
-    },
-    {
-      "CategoriaID": 1,
-      "Nombre": "Arriendo",
-      "Tipo": "Gasto",
-      "Icono": "fa-solid fa-house",
-      "Color": 'rgb(255, 205, 86)',
-      "Monto": 10000
-    },
-    {
-      "CategoriaID": 1,
-      "Nombre": "Arriendo",
-      "Tipo": "Gasto",
-      "Icono": "fa-solid fa-house",
-      "Color": 'rgb(75, 192, 192)',
-      "Monto": 180000
-    },
-  ];
-  transacciones = [
-    { TransaccionID: 11, CuentaID: 3, CategoriaID: 1, Tipo: "Gasto", Monto: 50000, Fecha: "2024-04-05T15:00:00.000Z", Descripcion: "En la tienda de la esquina" },
-    { TransaccionID: 12, CuentaID: 3, CategoriaID: null, Tipo: "Transferencia", Monto: -10000, Fecha: "2024-04-05T15:00:00.000Z", Descripcion: "En el cajero de Colombia hacia Cuenta 4" },
-    { TransaccionID: 11, CuentaID: 3, CategoriaID: 1, Tipo: "Gasto", Monto: 50000, Fecha: "2024-04-05T15:00:00.000Z", Descripcion: "En la tienda de la esquina" },
-    { TransaccionID: 12, CuentaID: 3, CategoriaID: null, Tipo: "Transferencia", Monto: -10000, Fecha: "2024-04-05T15:00:00.000Z", Descripcion: "En el cajero de Colombia hacia Cuenta 4" },
-    { TransaccionID: 11, CuentaID: 3, CategoriaID: 1, Tipo: "Gasto", Monto: 50000, Fecha: "2024-04-05T15:00:00.000Z", Descripcion: "En la tienda de la esquina" },
-    { TransaccionID: 12, CuentaID: 3, CategoriaID: null, Tipo: "Transferencia", Monto: -10000, Fecha: "2024-04-05T15:00:00.000Z", Descripcion: "En el cajero de Colombia hacia Cuenta 4" },
-  ];
+export class PresupuestoComponent implements AfterViewInit, OnInit {
+  presupuestos: any[] = [];
+  categorias: any[] = [];
+  transacciones: any[] = [];
+
+  /* Para crear Presupuesto */
+  monto!: number;
+  categoria!: number;
+
+
+  constructor(private finanzasServices: FinanzasServiceService) { }
+
+
+  ngOnInit() {
+    this.obtenerCategoriasYGastos();
+  }
 
   ngAfterViewInit(): void {
-      initFlowbite();
+    initFlowbite();
+  }
+
+  obtenerCategoriasYGastos() {
+    this.finanzasServices.getPresupuesto().subscribe(categorias => {
+      this.presupuestos = categorias;
+      // Obtener las categorías
+      this.finanzasServices.getCategorias().subscribe(data => {
+        this.categorias = data;
+      })
+
+      // Ahora obtenemos los gastos del mes
+      this.finanzasServices.getGastosMes().subscribe(gastosMes => {
+        for (let categoria of this.presupuestos) {
+          categoria.transacciones = gastosMes.filter(g => g.CategoriaID === categoria.CategoriaID);
+        }
+        this.presupuestos = this.presupuestos.map(categoria => {
+          // Calculamos la suma de los montos para cada categoria
+          const montoTotal = gastosMes.filter(gasto => gasto.CategoriaID === categoria.CategoriaID)
+            .reduce((sum, current) => sum + current.Monto, 0);
+          // Añadimos el monto total a la categoria
+          return { ...categoria, Gasto: montoTotal };
+        });
+        // Después de agregar el monto a cada categoría, calculamos el monto máximo
+        const montoMaximo = Math.max(...this.presupuestos.map(categoria => categoria.Monto));
+        // Opcionalmente, podrías querer calcular y añadir el porcentaje de cada categoría basado en el monto máximo
+        this.presupuestos = this.presupuestos.map(categoria => {
+          const porcentajeI = (categoria.Gasto / categoria.Monto) * 100;
+          const porcentaje = Math.round(porcentajeI);
+          return { ...categoria, porcentaje: porcentaje };
+        });
+      });
+    });
+  }
+
+  crearPresupuesto() {
+    if (!this.categoria || !this.monto) {
+      Swal.fire(
+        'Debes Ingresar Todos los datos',
+        `El presupuesto No ha sido creado.`,
+        'error'
+      )
+      return
+    };
+    const data = {
+      categoriaID: this.categoria,
+      monto: this.monto,
+      usuarioID: 1
+    };
+    this.finanzasServices.createPresupuesto(data).subscribe(data => {
+      this.obtenerCategoriasYGastos();
+      Swal.fire(
+        'Presupuesto Creado',
+        `El presupuesto ha sido creado exitosamente.`,
+        'success'
+      )
+    })
+  }
+
+  deletePresupuesto(presupuestoID: number) {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Esto eliminará el presupuesto',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, Eliminar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.finanzasServices.deletePresupuesto(presupuestoID).subscribe(data => {
+          this.obtenerCategoriasYGastos();
+        })
+        Swal.fire(
+          'Presupuesto Eliminado',
+          'El presupuesto ha sido eliminado exitosamente.',
+          'success'
+        )
+      }
+    });
   }
 
   editarPresupuesto() {
-    
+
   }
 
   goBack() {

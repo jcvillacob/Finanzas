@@ -1,0 +1,18 @@
+<div id="fondo" class="w-screen h-screen">
+  <div class="container__container h-full sm:h-auto w-full sm:w-96 rounded-none sm:rounded-xl">
+    <!-- Titulo -->
+    <div class="container__title">
+      <h1 class="title__text">LIDENBROK</h1>
+      <img src="../../../../assets/logo-finanzas.webp" alt="Logo" class="title__logo">
+    </div>
+
+    <!-- Formulario -->
+    <form class="container__form" (ngSubmit)="login()">
+      <h1 class="form__title">Inicia Sesión</h1>
+      <input type="text" name="username" [(ngModel)]="username" class="form__input user" placeholder="Usuario" required>
+      <input type="password" name="password" [(ngModel)]="password" placeholder="Contraseña" class="form__input password" required>
+      <button type="submit" class="form__button" [disabled]="">Enviar</button>
+    </form>
+
+  </div>
+</div>

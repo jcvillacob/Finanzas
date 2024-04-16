@@ -3,9 +3,12 @@
     <h2 class="text-xl font-bold text-[#274C77] mb-4">Resumen de Deudas</h2>
     <span routerLink="./deudas" class="text-blue-800 text-md font-semibold hover:cursor-pointer text-">Ver Todo</span>
   </div>
-  <ul>
-    <li *ngFor="let deuda of deudas" class="mb-3 p-4 rounded-md flex flex-col justify-between items-center">
-      <div class="w-full flex justify-between">
+
+  <app-no-datos *ngIf="!deudas.length"></app-no-datos>
+
+  <ul class="overflow-y-scroll" [style.max-height]="'480px'">
+    <li *ngFor="let deuda of deudas" class="mb-3 p-4 pb-0 rounded-md flex flex-col justify-between items-center">
+      <div class="w-full flex justify-between hover:cursor-pointer">
         <div class="flex justify-center items-center gap-5">
           <i class="text-[#1c3757] text-2xl" [ngClass]="deuda.Icono"></i>
           <span class="text-[#1c3757] font-medium">{{ deuda.Nombre }}</span>
@@ -13,7 +16,11 @@
         <span class="text-[#6096BA] font-semibold">{{ deuda.MontoTotal | currency }}</span>
       </div>
       <div class="w-full bg-gray-200 rounded-full h-2.5 mt-2">
-        <div class="bg-[#28802f] h-2.5 rounded-full" [style.width.%]="( deuda.MontoTotal - deuda.MontoPendiente) * 100 / deuda.MontoTotal"></div>
+        <div class="bg-[#28802f] h-2.5 rounded-full"
+          [style.width.%]="( deuda.MontoTotal - deuda.MontoPendiente) * 100 / deuda.MontoTotal"></div>
+      </div>
+      <div class="w-full flex justify-end items-center text-red-600">
+        <span class="text-xl mr-2 text-gray-600">Pendiente: </span>{{ deuda.MontoPendiente | currency }}
       </div>
     </li>
   </ul>
