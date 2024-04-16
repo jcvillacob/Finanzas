@@ -40,8 +40,8 @@ export class MetasComponent implements AfterViewInit {
 
   getMetas() {
     this.finanzasService.getMetas().subscribe(data => {
-      this.metas = data;
-      this.metaSelected = data[0];
+      this.metas = data.filter(m => m.MontoAhorrado < m.MontoObjetivo);
+      this.metaSelected = this.metas[0];
       this.getAvanceMeta(this.metaSelected.MetaAhorroID)
     });
   }

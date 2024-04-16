@@ -11,7 +11,7 @@ export class ResumenDeudasComponent {
 
   constructor(private finanzasService: FinanzasServiceService) {
     this.finanzasService.getDeudas().subscribe(data => {
-      this.deudas = data;
+      this.deudas = data.filter(m => m.MontoPendiente > 0);
     });
   }
 

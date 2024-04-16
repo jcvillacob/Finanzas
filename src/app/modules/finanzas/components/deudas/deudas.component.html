@@ -35,7 +35,7 @@
           <div class="w-full flex justify-between">
             <h2 class="text-xl font-bold text-[#274C77] mb-4">Deudas</h2>
           </div>
-          <ul  class="overflow-y-scroll" [style.max-height]="'480px'">
+          <ul class="overflow-y-scroll" [style.max-height]="'480px'">
             <li *ngFor="let deuda of deudas" class="mb-3 p-4 pb-0 rounded-md flex flex-col justify-between items-center"
               (click)="getPagosDeuda(deuda.DeudaID)">
               <div class="w-full flex justify-between hover:cursor-pointer">

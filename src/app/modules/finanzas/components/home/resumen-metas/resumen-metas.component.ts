@@ -11,7 +11,7 @@ export class ResumenMetasComponent {
 
   constructor(private finanzasService: FinanzasServiceService) {
     this.finanzasService.getMetas().subscribe(data => {
-      this.metas = data;
+      this.metas = data.filter(m => m.MontoAhorrado < m.MontoObjetivo);
     });
   }
 
