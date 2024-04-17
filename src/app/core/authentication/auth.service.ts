@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { jwtDecode } from "jwt-decode";
 
@@ -34,7 +34,16 @@ export class AuthService {
   }
 
   login(data: any) {
-    return this.http.post<any>(`${this.apiUrl}/login`, data)
+    return this.http.post<any>(`${this.apiUrl}/login`, data).pipe(
+      tap(res => {
+        if (res && res.token) {
+          localStorage.setItem('currentUserL', JSON.stringify({ token: res.token }));
+          this.usuarioLogged = this.decodeToken(res.token);
+          this.isLoggedIn.next(true);
+          this.router.navigate(['/finanzas']);
+        }
+      })
+    );
   }
 
   logout() {
