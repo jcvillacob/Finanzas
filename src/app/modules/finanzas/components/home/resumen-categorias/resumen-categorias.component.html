@@ -6,7 +6,7 @@
   <div class="w-full flex flex-col justify-between items-center md:flex-col h-5/6">
 
     <app-no-datos *ngIf="!categoriasData.length"></app-no-datos>
-    <div class="p-4" *ngIf="categoriasData.length">
+    <div class="p-4" [ngClass]="{'none' : categoriasData.length}">
       <canvas #chartCanvas2 id="chartCanvas2" class="" [style.height]="'100%'"  [style.widht]="'100%'"></canvas>
     </div>
     <div class="mt-4 min-h-44" *ngIf="categoriasData.length">

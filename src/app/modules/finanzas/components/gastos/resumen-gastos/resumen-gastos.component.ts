@@ -36,7 +36,8 @@ export class ResumenGastosComponent implements OnInit {
           const porcentajeI = (categoria.Monto / montoMaximo) * 100;
           const porcentaje = Math.round(porcentajeI);
           return { ...categoria, porcentaje: porcentaje };
-        });
+        }).filter(c => c.porcentaje > 0);
+
       });
     });
   }
