@@ -39,7 +39,7 @@ export class FinanzasServiceService {
   }
 
   getGastosMes(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/transacciones/gastosmes/1`);
+    return this.http.get<any[]>(`${this.apiUrl}/transacciones/gastosmes/${this.usuarioID}`);
   }
 
   createTransaccion(data: any): Observable<any> {
