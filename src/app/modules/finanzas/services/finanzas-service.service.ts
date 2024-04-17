@@ -12,12 +12,12 @@ export class FinanzasServiceService {
   usuarioID!: number;
 
   constructor(private http: HttpClient, private authService: AuthService) {
-    this.usuarioID = this.authService.getUsuarioID();
   }
 
   /* Cuentas */
   getCuentas(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/cuentas/usuario/${this.usuarioID}`);
+    const usuarioID = this.authService.getUsuarioID();
+    return this.http.get<any[]>(`${this.apiUrl}/cuentas/usuario/${usuarioID}`);
   }
 
   createCuenta(data: any): Observable<any> {
@@ -35,11 +35,13 @@ export class FinanzasServiceService {
   }
 
   getTransaccionByUser(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/transacciones/usuario/${this.usuarioID}`);
+    const usuarioID = this.authService.getUsuarioID();
+    return this.http.get<any[]>(`${this.apiUrl}/transacciones/usuario/${usuarioID}`);
   }
 
   getGastosMes(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/transacciones/gastosmes/${this.usuarioID}`);
+    const usuarioID = this.authService.getUsuarioID();
+    return this.http.get<any[]>(`${this.apiUrl}/transacciones/gastosmes/${usuarioID}`);
   }
 
   createTransaccion(data: any): Observable<any> {
@@ -57,7 +59,8 @@ export class FinanzasServiceService {
 
   /* Deudas */
   getDeudas(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/deudas/usuario/${this.usuarioID}`);
+    const usuarioID = this.authService.getUsuarioID();
+    return this.http.get<any[]>(`${this.apiUrl}/deudas/usuario/${usuarioID}`);
   }
 
   createDeuda(data: any): Observable<any> {
@@ -80,7 +83,8 @@ export class FinanzasServiceService {
 
   /* Presupuesto */
   getPresupuesto(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/presupuesto/usuario/${this.usuarioID}`);
+    const usuarioID = this.authService.getUsuarioID();
+    return this.http.get<any[]>(`${this.apiUrl}/presupuesto/usuario/${usuarioID}`);
   }
 
   createPresupuesto(data: any): Observable<any> {
@@ -103,7 +107,8 @@ export class FinanzasServiceService {
 
   /* Metas */
   getMetas(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/metas/usuario/${this.usuarioID}`);
+    const usuarioID = this.authService.getUsuarioID();
+    return this.http.get<any[]>(`${this.apiUrl}/metas/usuario/${usuarioID}`);
   }
 
   crearMeta(data: any): Observable<any> {
@@ -121,7 +126,8 @@ export class FinanzasServiceService {
 
   /* Recurrentes */
   getRecurrentes(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/recurrentes/usuario/${this.usuarioID}`);
+    const usuarioID = this.authService.getUsuarioID();
+    return this.http.get<any[]>(`${this.apiUrl}/recurrentes/usuario/${usuarioID}`);
   }
 
   crearRecurrente(data: any): Observable<any> {
