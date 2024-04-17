@@ -119,4 +119,17 @@ export class FinanzasServiceService {
     return this.http.post<any>(`${this.apiUrl}/avances-metas`, data);
   }
 
+  /* Recurrentes */
+  getRecurrentes(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/recurrentes/usuario/${this.usuarioID}`);
+  }
+
+  crearRecurrente(data: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/recurrentes`, data);
+  }
+
+  deleteRecurrente(recurrenteId: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/recurrentes/${recurrenteId}`);
+  }
+
 }

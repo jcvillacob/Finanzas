@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FinanzasServiceService } from '../../../services/finanzas-service.service';
 
 @Component({
   selector: 'app-resumen-gastos-recurrentes',
@@ -6,11 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./resumen-gastos-recurrentes.component.scss']
 })
 export class ResumenGastosRecurrentesComponent {
-  gastos = [
-    { nombre: 'Netflix', valor: '$1,500', icono: 'fa-solid fa-clapperboard'},
-    { nombre: 'Spotify', valor: '$4,200', icono: 'fa-brands fa-spotify' },
-    { nombre: 'Smartfit', valor: '$1,500', icono: 'fa-solid fa-dumbbell' },
-    { nombre: 'ChatGPT', valor: '$4,200', icono: 'fa-solid fa-robot' },
-    { nombre: 'WOM', valor: '$1,500', icono: 'fa-solid fa-mobile' }
-  ];
+  gastos: any[] = [];
+
+  constructor(private finanzasService: FinanzasServiceService) {
+    this.finanzasService.getRecurrentes().subscribe(data => {
+      this.gastos = data;
+    })
+  }
 }
