@@ -151,7 +151,7 @@ export class HomeComponent implements AfterViewInit, OnInit {
   }
 
   crearTransaccion() {
-    if (!this.fechaTransaccion || !this.cuentaTransaccion || !this.montoTransaccion || !this.categoriaTransaccion || !this.modal.movimiento || !this.descripcionTransaccion) {
+    if (!this.fechaTransaccion || !this.cuentaTransaccion || !this.montoTransaccion || (this.modal.movimiento !== 'Transferencia' ? !this.categoriaTransaccion : true) || !this.modal.movimiento || !this.descripcionTransaccion) {
       Swal.fire(
         'Debes Ingresar Todos los datos',
         `La transacción No ha sido creada.`,
@@ -174,7 +174,7 @@ export class HomeComponent implements AfterViewInit, OnInit {
       if (!this.cuenta2Transaccion) {
         Swal.fire(
           'Debes Ingresar Todos los datos',
-          `La transacción No ha sido creada.`,
+          `La transferencia No ha sido creada.`,
           'error'
         )
         return

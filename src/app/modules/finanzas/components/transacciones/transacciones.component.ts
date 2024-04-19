@@ -9,47 +9,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./transacciones.component.scss'],
 })
 export class TransaccionesComponent implements AfterViewInit {
-  transacciones: any[] = [
-    {
-      TransaccionID: 11,
-      CuentaID: 3,
-      CategoriaID: 1,
-      Tipo: 'Gasto',
-      Monto: 50000,
-      Fecha: '2024-04-05T15:00:00.000Z',
-      Descripcion: 'En la tienda de la esquina',
-      NombreCuenta: 'Davivienda',
-      IconoCuenta: 'fa-solid fa-building-columns',
-      NombreCategoria: 'Arriendo',
-      IconoCategoria: 'fa-solid fa-van-shuttle'
-    },
-    {
-      TransaccionID: 11,
-      CuentaID: 3,
-      CategoriaID: 1,
-      Tipo: 'Gasto',
-      Monto: 50000,
-      Fecha: '2024-04-05T15:00:00.000Z',
-      Descripcion: 'En la tienda de la esquina',
-      NombreCuenta: 'Davivienda',
-      IconoCuenta: 'fa-solid fa-building-columns',
-      NombreCategoria: 'Arriendo',
-      IconoCategoria: 'fa-solid fa-van-shuttle'
-    },
-    {
-      TransaccionID: 11,
-      CuentaID: 3,
-      CategoriaID: 1,
-      Tipo: 'Gasto',
-      Monto: 50000,
-      Fecha: '2024-04-05T15:00:00.000Z',
-      Descripcion: 'En la tienda de la esquina',
-      NombreCuenta: 'Davivienda',
-      IconoCuenta: 'fa-solid fa-building-columns',
-      NombreCategoria: 'Arriendo',
-      IconoCategoria: 'fa-solid fa-van-shuttle'
-    }
-  ];
+  transacciones: any[] = [];
 
   constructor(private finanzasServices: FinanzasServiceService) {
     this.getTransacciones();
@@ -57,7 +17,7 @@ export class TransaccionesComponent implements AfterViewInit {
 
   getTransacciones() {
     this.finanzasServices.getTransaccionByUser().subscribe(data => {
-      this.transacciones = data;
+      this.transacciones = data.reverse();
     });
   }
 
