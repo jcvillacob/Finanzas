@@ -17,7 +17,7 @@ export class ResumenTransaccionesComponent implements OnInit, OnDestroy {
 
   getTransacciones(){
     this.finanzasServices.getTransaccionByUser().subscribe(data => {
-      this.transacciones = data.reverse();
+      this.transacciones = data.reverse().slice(0, 10);
     });
   }
 
