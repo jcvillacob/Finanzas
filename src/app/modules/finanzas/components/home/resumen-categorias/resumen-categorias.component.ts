@@ -1,13 +1,15 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 import { FinanzasServiceService } from '../../../services/finanzas-service.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-resumen-categorias',
   templateUrl: './resumen-categorias.component.html',
   styleUrls: ['./resumen-categorias.component.scss']
 })
-export class ResumenCategoriasComponent implements AfterViewInit {
+export class ResumenCategoriasComponent implements AfterViewInit, OnInit, OnDestroy {
+  private updateSubscription!: Subscription;
   @ViewChild('chartCanvas2') chartCanvas2!: ElementRef<HTMLCanvasElement>;
   categoriasData: any[] = [];
 
@@ -16,6 +18,18 @@ export class ResumenCategoriasComponent implements AfterViewInit {
     this.finanzasService.getGastosMes().subscribe(data => {
       this.processData(data);
     });
+  }
+
+  ngOnInit() {
+    this.updateSubscription = this.finanzasService.getUpdateNotifier().subscribe(() => {
+      this.finanzasService.getGastosMes().subscribe(data => {
+        this.processData(data);
+      });
+    });
+  }
+
+  ngOnDestroy() {
+    this.updateSubscription.unsubscribe();
   }
 
   ngAfterViewInit() {

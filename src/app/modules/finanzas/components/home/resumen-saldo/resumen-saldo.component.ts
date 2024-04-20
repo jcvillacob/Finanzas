@@ -1,30 +1,50 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 import 'chartjs-adapter-date-fns';
 import { FinanzasServiceService } from '../../../services/finanzas-service.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-resumen-saldo',
   templateUrl: './resumen-saldo.component.html',
   styleUrls: ['./resumen-saldo.component.scss'],
 })
-export class ResumenSaldoComponent implements AfterViewInit {
+export class ResumenSaldoComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild('chartCanvas') chartCanvas!: ElementRef<HTMLCanvasElement>;
   saldoTotal!: number;
   transacciones: any[] = [];
+  private updateSubscription!: Subscription;
 
   constructor(private finanzasService: FinanzasServiceService) {
     this.getDatos();
     Chart.register(...registerables);
   }
 
-  ngAfterViewInit(): void {
+  ngOnInit() {
+    this.updateSubscription = this.finanzasService
+      .getUpdateNotifier()
+      .subscribe(() => {
+        this.getDatos();
+      });
   }
 
+  ngOnDestroy() {
+    this.updateSubscription.unsubscribe();
+  }
+
+  ngAfterViewInit(): void {}
+
   getDatos() {
-    this.finanzasService.getCuentas().subscribe(data => {
+    this.finanzasService.getCuentas().subscribe((data) => {
       this.saldoTotal = data.reduce((acc, curr) => acc + curr.Saldo, 0);
-      this.finanzasService.getTransaccionByUser().subscribe(data => {
+      this.finanzasService.getTransaccionByUser().subscribe((data) => {
         this.transacciones = data;
         this.createLineChart(this.chartCanvas);
       });
@@ -43,7 +63,7 @@ export class ResumenSaldoComponent implements AfterViewInit {
       let saldo = this.saldoTotal;
 
       const saldosDiarios: any[] = [];
-      sortedTransactions.forEach(transaccion => {
+      sortedTransactions.forEach((transaccion) => {
         if (transaccion.Tipo === 'Ingreso') {
           saldo -= transaccion.Monto; // Restar al saldo si es ingreso, vamos en reversa
         } else if (transaccion.Tipo === 'Gasto') {
@@ -54,8 +74,8 @@ export class ResumenSaldoComponent implements AfterViewInit {
       });
 
       // No necesitamos revertir la lista, la graficamos como está, del más reciente al más antiguo
-      const labels = saldosDiarios.map(d => d.fecha);
-      let data = saldosDiarios.map(d => d.saldo);
+      const labels = saldosDiarios.map((d) => d.fecha);
+      let data = saldosDiarios.map((d) => d.saldo);
       data.unshift(this.saldoTotal);
       data.pop();
 

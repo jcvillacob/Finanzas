@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject, tap } from 'rxjs';
 import { AuthService } from 'src/app/core/authentication/auth.service';
 import { environment } from 'src/environments/environment';
 
@@ -9,9 +9,20 @@ import { environment } from 'src/environments/environment';
 })
 export class FinanzasServiceService {
   private apiUrl = environment.apiURL;
+  private updateNotifier = new Subject<void>();
   usuarioID!: number;
 
   constructor(private http: HttpClient, private authService: AuthService) {
+  }
+
+  // Método para obtener el observable del notifier
+  getUpdateNotifier() {
+    return this.updateNotifier.asObservable();
+  }
+
+  // Método para emitir notificaciones
+  notifyUpdates() {
+    this.updateNotifier.next();
   }
 
   /* Cuentas */
@@ -45,16 +56,22 @@ export class FinanzasServiceService {
   }
 
   createTransaccion(data: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/transacciones`, data);
+    return this.http.post<any>(`${this.apiUrl}/transacciones`, data).pipe(
+      tap(() => this.notifyUpdates()) // Notificar después de una operación exitosa
+    );
   }
 
   deleteTransaccion(transaccionId: number): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/transacciones/${transaccionId}`);
+    return this.http.delete<any>(`${this.apiUrl}/transacciones/${transaccionId}`).pipe(
+      tap(() => this.notifyUpdates()) // Notificar después de una operación exitosa
+    );
   }
 
   /* Transferencias */
   createTransferencia(data: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/transferencias`, data);
+    return this.http.post<any>(`${this.apiUrl}/transferencias`, data).pipe(
+      tap(() => this.notifyUpdates()) // Notificar después de una operación exitosa
+    );
   }
 
   /* Deudas */

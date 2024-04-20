@@ -1,19 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FinanzasServiceService } from '../../../services/finanzas-service.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-resumen-presupuesto',
   templateUrl: './resumen-presupuesto.component.html',
   styleUrls: ['./resumen-presupuesto.component.scss']
 })
-export class ResumenPresupuestoComponent {
+export class ResumenPresupuestoComponent implements OnInit, OnDestroy {
+  private updateSubscription!: Subscription;
   categorias: any[] = [];
 
   constructor(private finanzasServices: FinanzasServiceService) { }
 
-
   ngOnInit() {
-    this.obtenerCategoriasYGastos();
+    this.updateSubscription = this.finanzasServices.getUpdateNotifier().subscribe(() => {
+      this.obtenerCategoriasYGastos();
+    });
+  }
+
+  ngOnDestroy() {
+    this.updateSubscription.unsubscribe();
   }
 
   obtenerCategoriasYGastos() {
