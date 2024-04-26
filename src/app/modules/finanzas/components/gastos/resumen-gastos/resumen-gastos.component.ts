@@ -20,24 +20,20 @@ export class ResumenGastosComponent implements OnInit {
   obtenerCategoriasYGastos() {
     this.finanzasServices.getCategorias().subscribe(categorias => {
       this.categorias = categorias.filter(c => c.Tipo === 'Gasto');
-      // Ahora obtenemos los gastos del mes
+
       this.finanzasServices.getGastosMes().subscribe(gastosMes => {
         this.categorias = this.categorias.map(categoria => {
-          // Calculamos la suma de los montos para cada categoria
           const montoTotal = gastosMes.filter(gasto => gasto.CategoriaID === categoria.CategoriaID)
             .reduce((sum, current) => sum + current.Monto, 0);
-          // Añadimos el monto total a la categoria
           return { ...categoria, Monto: montoTotal };
         });
-        // Después de agregar el monto a cada categoría, calculamos el monto máximo
+
         const montoMaximo = Math.max(...this.categorias.map(categoria => categoria.Monto));
-        // Opcionalmente, podrías querer calcular y añadir el porcentaje de cada categoría basado en el monto máximo
         this.categorias = this.categorias.map(categoria => {
           const porcentajeI = (categoria.Monto / montoMaximo) * 100;
           const porcentaje = Math.round(porcentajeI);
           return { ...categoria, porcentaje: porcentaje };
-        }).filter(c => c.porcentaje > 0);
-
+        }).filter(c => c.porcentaje > 0).sort((a, b) => b.porcentaje - a.porcentaje);;
       });
     });
   }

@@ -41,7 +41,7 @@
         </div>
         <div class="">
           <p class="text-sm text-gray-500">
-            {{ transaccion.Fecha | date: 'MM/dd/yy, h:mm a' }}
+            {{ transaccion.Fecha | date:'dd/MM/yyyy, h:mm a':'UTC'}}
           </p>
         </div>
       </div>

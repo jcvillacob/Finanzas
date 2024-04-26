@@ -53,6 +53,7 @@ export class ResumenCategoriasComponent implements AfterViewInit, OnInit, OnDest
     }, []);
 
     this.categoriasData = groupedData;
+    this.categoriasData = this.categoriasData.sort((a, b) => b.valor - a.valor);
     this.createPieChart();
   }
 

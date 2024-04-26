@@ -14,8 +14,8 @@
         <li *ngFor="let categoria of categoriasData; let i = index" class="flex justify-start py-1 pl-2 items-center">
           <span class="min-w-10 min-h-5 mr-2 inline-block rounded-full"
             [ngStyle]="{'background-color': categoriasData[i].color}"></span>
-          <span class="mr-2">{{ categoria.nombre }}:</span>
-          <span class="font-semibold">{{ categoria.valor | currency }}</span>
+          <span class="mr-2 w-full text-left">{{ categoria.nombre }}:</span>
+          <span class="font-semibold">{{ categoria.valor | currency:'':'symbol':'1.0-0' }}</span>
         </li>
       </ul>
     </div>

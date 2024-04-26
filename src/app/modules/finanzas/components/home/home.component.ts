@@ -181,6 +181,13 @@ export class HomeComponent implements AfterViewInit, OnInit {
       }
       this.finanzasService.createTransferencia(data).subscribe(data => {
         this.getCuentas();
+        this.fechaTransaccion = '';
+        this.cuentaTransaccion = 0;
+        this.montoTransaccion = 0;
+        this.categoriaTransaccion = 0;
+        this.descripcionTransaccion = '';
+        this.cuentaTransaccion = 0;
+        this.cuenta2Transaccion = 0;
         Swal.fire(
           'Transferencia Creada',
           `La transferencia ha sido creada exitosamente.`,
@@ -190,6 +197,13 @@ export class HomeComponent implements AfterViewInit, OnInit {
     } else {
       this.finanzasService.createTransaccion(data).subscribe(data => {
         this.getCuentas();
+        this.fechaTransaccion = '';
+        this.cuentaTransaccion = 0;
+        this.montoTransaccion = 0;
+        this.categoriaTransaccion = 0;
+        this.descripcionTransaccion = '';
+        this.cuentaTransaccion = 0;
+        this.cuenta2Transaccion = 0;
         Swal.fire(
           'Transacción Creada',
           `La Transacción ha sido creada exitosamente.`,

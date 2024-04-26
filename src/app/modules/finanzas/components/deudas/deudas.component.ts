@@ -17,6 +17,7 @@ export class DeudasComponent implements AfterViewInit {
   pagosDeuda: any[] = [];
   chartInstance: Chart | null = null;
   usuarioID!: number;
+  cuentas: any[] = [];
 
   /* Para crear Deuda */
   nombre!: string;
@@ -28,6 +29,7 @@ export class DeudasComponent implements AfterViewInit {
   montoPago!: number;
   deudaPago!: number;
   fechaPago!: string;
+  cuentaPago!: number;
 
   constructor(private finanzasService: FinanzasServiceService, private authService: AuthService) {
     this.getDeudas();
@@ -43,7 +45,10 @@ export class DeudasComponent implements AfterViewInit {
     this.finanzasService.getDeudas().subscribe(data => {
       this.deudas = data.filter(d => d.MontoPendiente > 0);
       this.deudaSelected = this.deudas[0];
-      this.getPagosDeuda(this.deudaSelected.DeudaID)
+      this.getPagosDeuda(this.deudaSelected.DeudaID);
+      this.finanzasService.getCuentas().subscribe(data => {
+        this.cuentas = data;
+      });
     });
   }
 
@@ -66,6 +71,7 @@ export class DeudasComponent implements AfterViewInit {
     const data = {
       monto: this.montoPago,
       deudaID: this.deudaPago,
+      cuentaID: this.cuentaPago,
       fecha: this.fechaPago
     }
     this.finanzasService.createPagosDeudas(data).subscribe(data => {

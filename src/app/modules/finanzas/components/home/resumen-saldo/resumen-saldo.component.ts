@@ -21,6 +21,7 @@ export class ResumenSaldoComponent implements AfterViewInit, OnInit, OnDestroy {
   saldoTotal!: number;
   transacciones: any[] = [];
   private updateSubscription!: Subscription;
+  chartInstance: Chart | null = null;
 
   constructor(private finanzasService: FinanzasServiceService) {
     this.getDatos();
@@ -54,6 +55,10 @@ export class ResumenSaldoComponent implements AfterViewInit, OnInit, OnDestroy {
   createLineChart(canvas: ElementRef<HTMLCanvasElement>) {
     const context = canvas.nativeElement.getContext('2d');
     if (context) {
+      // Si ya existe una instancia de gráfico, la destruye
+      if (this.chartInstance) {
+        this.chartInstance.destroy();
+      }
       // Paso 1: Ordenar las transacciones por fecha en orden descendente.
       const sortedTransactions = this.transacciones.sort((a, b) =>
         b.Fecha.localeCompare(a.Fecha)
@@ -80,7 +85,7 @@ export class ResumenSaldoComponent implements AfterViewInit, OnInit, OnDestroy {
       data.pop();
 
       // Paso 3: Configurar el gráfico
-      new Chart(context, {
+      this.chartInstance = new Chart(context, {
         type: 'line',
         data: {
           labels,

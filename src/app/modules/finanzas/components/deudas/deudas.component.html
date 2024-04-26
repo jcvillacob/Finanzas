@@ -160,18 +160,27 @@
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
           </div>
           <div>
-            <label for="deuda" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Deuda a Pagar</label>
-            <select id="deuda" name="deuda"  [(ngModel)]="deudaPago"
+            <label for="deuda" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Deuda a
+              Pagar</label>
+            <select id="deuda" name="deuda" [(ngModel)]="deudaPago"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-              <option selected="" disabled>Seleccionar cuenta</option>
+              <option selected="" disabled>Seleccionar deuda</option>
               <option [value]="deuda.DeudaID" *ngFor="let deuda of deudas">{{ deuda.Nombre }}</option>
             </select>
           </div>
-          <div class="sm:col-span-2">
+          <div>
             <label for="montoPago" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Monto</label>
             <input type="number" name="montoPago" id="montoPago" [(ngModel)]="montoPago"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
               placeholder="$1'000.000" required="">
+          </div>
+          <div>
+            <label for="cuenta" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cuenta</label>
+            <select id="cuenta" name="cuenta" [(ngModel)]="cuentaPago"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+              <option selected="" disabled>Seleccionar cuenta</option>
+              <option [value]="cuenta.CuentaID" *ngFor="let cuenta of cuentas">{{ cuenta.Nombre }}</option>
+            </select>
           </div>
         </div>
         <button type="submit" data-modal-toggle="pagoModal"
