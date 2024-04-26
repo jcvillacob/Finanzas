@@ -10,7 +10,6 @@ import { environment } from 'src/environments/environment';
 export class FinanzasServiceService {
   private apiUrl = environment.apiURL;
   private updateNotifier = new Subject<void>();
-  usuarioID!: number;
 
   constructor(private http: HttpClient, private authService: AuthService) {
   }

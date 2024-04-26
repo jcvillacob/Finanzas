@@ -16,6 +16,11 @@ const routes: Routes = [
     loadChildren: () => import('./modules/finanzas/finanzas.module').then(m => m.FinanzasModule),
     canActivate: [loginGuard]
   },
+  {
+    path: 'biblioteca',
+    loadChildren: () => import('./modules/biblioteca/biblioteca.module').then(m => m.BibliotecaModule),
+    canActivate: [loginGuard]
+  },
 ];
 
 @NgModule({
