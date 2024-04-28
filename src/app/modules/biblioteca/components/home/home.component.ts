@@ -37,7 +37,13 @@ export class HomeComponent implements OnInit {
   getInfo(recom: string) {
     this.librosService.getInfo(recom).subscribe(data => {
       this.informaciones = data;
-      console.log(data);
+    })
+  }
+
+  getInfoClick() {
+    this.librosService.getInfo(this.keyword).subscribe(data => {
+      this.informaciones = data;
+      console.log(data)
     })
   }
 
