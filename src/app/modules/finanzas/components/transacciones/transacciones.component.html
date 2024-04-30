@@ -52,7 +52,7 @@
           {{ transaccion.Descripcion }}
         </div>
         <div class="text-gray-800 text-2xl mb-3 sm:mb-0">
-          {{ transaccion.Monto | currency }}
+          {{ transaccion.Monto | currency:'':'symbol':'1.0-0' }}
         </div>
       </div>
 

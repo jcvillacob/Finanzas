@@ -12,7 +12,7 @@
         <i class="text-[#1c3757] text-2xl" [ngClass]="gasto.Icono"></i>
         <span class="text-[#1c3757] font-medium">{{ gasto.Descripcion }}</span>
       </div>
-      <span class="text-[#6096BA] font-semibold">{{ gasto.Monto | currency }}</span>
+      <span class="text-[#6096BA] font-semibold">{{ gasto.Monto | currency:'':'symbol':'1.0-0' }}</span>
     </li>
   </ul>
 </div>

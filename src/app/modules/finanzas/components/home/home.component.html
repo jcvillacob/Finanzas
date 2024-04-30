@@ -24,19 +24,19 @@
     <div class="md:w-1/4 w-full p-4">
       <div class="bg-white rounded-xl p-2 py-5 h-full flex flex-col justify-center items-center gap-2">
         <h2 class="text-xl font-bold text-[#274C77] mb-2">Saldo Actual</h2>
-        <span class="text-xl">{{ saldoActual | currency }}</span>
+        <span class="text-xl">{{ saldoActual | currency:'':'symbol':'1.0-0' }}</span>
       </div>
     </div>
     <div class="md:w-1/4 w-full p-4">
       <div class="bg-white rounded-xl p-2 py-5 h-full flex flex-col justify-center items-center gap-2">
         <h2 class="text-xl font-bold text-[#274C77] mb-2">Gastos Mes</h2>
-        <span class="text-xl">{{ gastosMes | currency }}</span>
+        <span class="text-xl">{{ gastosMes | currency:'':'symbol':'1.0-0' }}</span>
       </div>
     </div>
     <div class="md:w-1/4 w-full p-4">
       <div class="bg-white rounded-xl p-2 py-5 h-full flex flex-col justify-center items-center gap-2">
         <h2 class="text-xl font-bold text-[#274C77] mb-2">Deuda Actual</h2>
-        <span class="text-xl">{{ deudas | currency }}</span>
+        <span class="text-xl">{{ deudas | currency:'':'symbol':'1.0-0' }}</span>
       </div>
     </div>
     <div class="md:w-1/4 w-full p-4">

@@ -40,7 +40,7 @@ export class PresupuestoComponent implements AfterViewInit, OnInit {
       // Ahora obtenemos los gastos del mes
       this.finanzasServices.getGastosMes().subscribe(gastosMes => {
         for (let categoria of this.presupuestos) {
-          categoria.transacciones = gastosMes.filter(g => g.CategoriaID === categoria.CategoriaID);
+          categoria.transacciones = gastosMes.filter(g => g.CategoriaID === categoria.CategoriaID).reverse();
         }
         this.presupuestos = this.presupuestos.map(categoria => {
           // Calculamos la suma de los montos para cada categoria

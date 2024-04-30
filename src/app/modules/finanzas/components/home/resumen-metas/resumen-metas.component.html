@@ -13,14 +13,14 @@
           <i class="text-[#1c3757] text-2xl" [ngClass]="meta.Icono"></i>
           <span class="text-[#1c3757] font-medium">{{ meta.Nombre }}</span>
         </div>
-        <span class="text-[#6096BA] font-semibold">{{ meta.MontoObjetivo | currency }}</span>
+        <span class="text-[#6096BA] font-semibold">{{ meta.MontoObjetivo | currency:'':'symbol':'1.0-0' }}</span>
       </div>
       <div class="w-full bg-gray-200 rounded-full h-2.5 mt-2">
         <div class="bg-[#28802f] h-2.5 rounded-full"
           [style.width.%]="(meta.MontoAhorrado * 100) / meta.MontoObjetivo"></div>
       </div>
       <div class="w-full flex justify-end items-center text-red-600">
-        <span class="text-xl mr-2 text-gray-600">Pendiente: </span>{{ meta.MontoObjetivo - meta.MontoAhorrado | currency }}
+        <span class="text-xl mr-2 text-gray-600">Pendiente: </span>{{ meta.MontoObjetivo - meta.MontoAhorrado | currency:'':'symbol':'1.0-0' }}
       </div>
     </li>
   </ul>

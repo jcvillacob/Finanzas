@@ -12,7 +12,7 @@
         <i class="text-[#1c3757] text-2xl" [ngClass]="cuenta.Icono"></i>
         <span class="text-[#1c3757] font-medium">{{ cuenta.Nombre }}</span>
       </div>
-      <span class="text-[#6096BA] font-semibold">{{ cuenta.Saldo | currency }}</span>
+      <span class="text-[#6096BA] font-semibold">{{ cuenta.Saldo | currency:'':'symbol':'1.0-0' }}</span>
     </li>
   </ul>
 </div>

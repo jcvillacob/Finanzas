@@ -27,7 +27,7 @@
         </div>
       </div>
       <div>
-        <span class="text-[#6096BA] font-semibold">{{ cuenta.Saldo | currency }}</span>
+        <span class="text-[#6096BA] font-semibold">{{ cuenta.Saldo | currency:'':'symbol':'1.0-0' }}</span>
         <button (click)="eliminarCuenta(cuenta.CuentaID)" class="ml-4 text-red-500 hover:text-red-700 z-50"
           data-modal-toggle="transactionsModal">
           <i class="fa-solid fa-trash"></i>
@@ -86,7 +86,7 @@
               </p>
             </div>
             <div class="text-sm text-gray-600 dark:text-gray-200">
-              {{ transaccion.Monto | currency }}
+              {{ transaccion.Monto | currency:'':'symbol':'1.0-0' }}
             </div>
           </li>
         </ul>

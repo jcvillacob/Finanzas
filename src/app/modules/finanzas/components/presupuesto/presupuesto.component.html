@@ -16,26 +16,26 @@
   </div>
 
   <ul class="w-5/6 sm:w-4/5 mt-4">
-    <li *ngFor="let categoria of presupuestos" (click)="deletePresupuesto(categoria.PresupuestoID)"
+    <li *ngFor="let categoria of presupuestos"
       class="mb-3 p-4 rounded-md flex flex-col justify-between items-center bg-white shadow">
       <div class="w-full flex justify-end pr-5 gap-4 py-2 text-lg">
         <i (click)="editarPresupuesto()" data-modal-toggle="presupuestoModal"
           class="fa-solid fa-pencil text-green-700 hover:cursor-pointer"></i>
-        <i class="fa-solid fa-trash-can text-red-700 hover:cursor-pointer"></i>
+        <i (click)="deletePresupuesto(categoria.PresupuestoID)" class="fa-solid fa-trash-can text-red-700 hover:cursor-pointer"></i>
       </div>
       <div class="w-full flex justify-between items-center mb-1">
         <div class="flex justify-start items-center gap-5">
           <i class="text-[#1c3757] text-2xl" [style.color]="categoria.ColorCategoria" [ngClass]="categoria.IconoCategoria"></i>
           <span class="text-[#1c3757] font-medium">{{ categoria.NombreCategoria }}</span>
         </div>
-        <span class="text-[#6096BA] font-semibold">{{ categoria.Monto | currency }}</span>
+        <span class="text-[#6096BA] font-semibold">{{ categoria.Monto | currency:'':'symbol':'1.0-0' }}</span>
       </div>
       <div class="w-full bg-gray-200 rounded-full h-2.5">
         <div class="bg-[#ba6060] h-2.5 rounded-full" [style.background-color]="categoria.ColorCategoria"
           [style.width.%]="categoria.Gasto * 100 / categoria.Monto"></div>
       </div>
       <div class="w-5/6 mt-5">
-        <ul class="w-full">
+        <ul class="w-full overflow-y-auto" [style.max-height]="'480px'">
           <li *ngFor="let transaccion of categoria.transacciones"
             class="flex justify-around items-center w-full px-4 py-2 border-b border-gray-200">
             <div class="text-red-500 mr-2">
@@ -50,7 +50,7 @@
               </p>
             </div>
             <div class="text-sm text-gray-600">
-              {{ transaccion.Monto | currency }}
+              {{ transaccion.Monto | currency:'':'symbol':'1.0-0' }}
             </div>
           </li>
         </ul>
