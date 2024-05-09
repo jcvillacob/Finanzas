@@ -13,6 +13,7 @@ export class RecurrentesComponent implements AfterViewInit {
   gastos: any[] = [];
   categorias: any[] = [];
   usuarioID!: number;
+  iconos!: any[];
 
   /* Para crear suscripcion */
   categoria!: number;
@@ -30,6 +31,10 @@ export class RecurrentesComponent implements AfterViewInit {
     })
   }
 
+  setIcon(icon: string) {
+    this.icono = icon
+  }
+
   ngAfterViewInit(): void {
     initFlowbite();
   }
@@ -37,6 +42,9 @@ export class RecurrentesComponent implements AfterViewInit {
   getSuscripciones() {
     this.finanzasService.getRecurrentes().subscribe(data => {
       this.gastos = data;
+      this.finanzasService.getIconos().subscribe(data => {
+        this.iconos = data;
+      });
     })
   }
 

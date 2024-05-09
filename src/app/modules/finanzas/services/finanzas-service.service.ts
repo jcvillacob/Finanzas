@@ -25,6 +25,11 @@ export class FinanzasServiceService {
     this.updateNotifier.next();
   }
 
+  /* Iconos */
+  getIconos(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/iconos/`);
+  }
+
   /* Cuentas */
   getCuentas(): Observable<any[]> {
     const usuarioID = this.authService.getUsuarioID();

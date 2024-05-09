@@ -16,6 +16,7 @@ export class CuentasComponent implements AfterViewInit {
   icono!: string;
   saldo!: number;
   cuentas!: any[];
+  iconos!: any[];
   transacciones = [
     { TransaccionID: 11, CuentaID: 3, CategoriaID: 1, Tipo: "Gasto", Monto: 50000, Fecha: "2024-04-05T15:00:00.000Z", Descripcion: "En la tienda de la esquina" },
     { TransaccionID: 12, CuentaID: 3, CategoriaID: null, Tipo: "Transferencia", Monto: -10000, Fecha: "2024-04-05T15:00:00.000Z", Descripcion: "En el cajero de Colombia hacia Cuenta 4" }
@@ -33,6 +34,10 @@ export class CuentasComponent implements AfterViewInit {
     }, 500)
   }
 
+  setIcon(icon: string) {
+    this.icono = icon
+  }
+
   getCuentas() {
     this.finanzasService.getCuentas().subscribe(data => {
       this.cuentas = data;
@@ -40,6 +45,9 @@ export class CuentasComponent implements AfterViewInit {
       this.tipo = '';
       this.icono = '';
       this.saldo = 0;
+      this.finanzasService.getIconos().subscribe(data => {
+        this.iconos = data;
+      })
       setTimeout(() => {
         initFlowbite();
       }, 500);

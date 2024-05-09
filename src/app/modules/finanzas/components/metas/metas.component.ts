@@ -13,9 +13,10 @@ import { initFlowbite } from 'flowbite';
 export class MetasComponent implements AfterViewInit {
   @ViewChild('chartMetas') chartMetas!: ElementRef<HTMLCanvasElement>;
   metas: any[] = [];
-  metaSelected!: any;
+  metaSelected: any = {MetaAhorroID: 0};
   avancesMetas: any[] = [];
   chartInstance: Chart | null = null;
+  iconos!: any[];
 
   /* Para crear Meta */
   nombre!: string;
@@ -38,13 +39,25 @@ export class MetasComponent implements AfterViewInit {
     initFlowbite();
   }
 
+  setIcon(icon: string) {
+    this.icono = icon
+  }
+
   getMetas() {
     this.finanzasService.getMetas().subscribe(data => {
       this.metas = data.filter(m => m.MontoAhorrado < m.MontoObjetivo);
-      this.metaSelected = this.metas[0];
-      this.getAvanceMeta(this.metaSelected.MetaAhorroID)
+      if (this.metas.length > 0) {
+        this.metaSelected = this.metas[0];
+        this.getAvanceMeta(this.metaSelected.MetaAhorroID);
+      } else {
+        this.metaSelected = { MetaAhorroID: 0 };
+      }
+      this.finanzasService.getIconos().subscribe(data => {
+        this.iconos = data;
+      });
     });
   }
+
 
   getAvanceMeta(MetaAhorroID: number) {
     this.finanzasService.getAvancesMetas(MetaAhorroID).subscribe(data => {

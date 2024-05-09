@@ -20,6 +20,7 @@ export class GastosComponent {
   tipoCategoria!: string;
   selectedColor: string = '#412569';
   iconoCategoria!: string;
+  iconos!: any[];
   datos = {
     saldoTotal: 3250,
     transacciones: [
@@ -359,6 +360,9 @@ export class GastosComponent {
   constructor(private finanzasService: FinanzasServiceService) {
     this.finanzasService.getTransaccionByUser().subscribe(dato => {
       this.datos.transacciones = dato.filter(t => t.Tipo === 'Gasto');
+      this.finanzasService.getIconos().subscribe(data => {
+        this.iconos = data;
+      });
       const { labels, data } = this.processData(this.datos.transacciones);
       this.createLineChart(this.chartGastos, labels, data);
       this.createBarChart(this.chartGastosB);
@@ -368,6 +372,10 @@ export class GastosComponent {
 
   ngAfterViewInit(): void {
     initFlowbite();
+  }
+
+  setIcon(icon: string) {
+    this.iconoCategoria = icon
   }
 
   processData(transacciones: any[]): { labels: string[], data: number[] } {

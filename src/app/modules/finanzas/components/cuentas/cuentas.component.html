@@ -44,7 +44,8 @@
   class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
   <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
     <!-- Modal content -->
-    <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5 overflow-y-auto" [style.max-height]="'90vh'">
+    <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5 overflow-y-auto"
+      [style.max-height]="'90vh'">
       <!-- Modal header -->
       <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
         <h3 class="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-4">
@@ -134,12 +135,27 @@
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
               placeholder="Ahorros" required="">
           </div>
+
           <div>
-            <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Icono</label>
-            <input type="text" name="icono" id="icono" [(ngModel)]="icono"
+            <label for="icono" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Icono</label>
+
+            <button id="dropdownDelayButton" data-dropdown-toggle="dropdownDelay" data-dropdown-delay="300"
+              data-dropdown-trigger="hover"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              placeholder="fa-solid fa-home" required="">
+              type="button"><i class="{{icono}}" *ngIf="icono"></i><span *ngIf="!icono">Escoge un Icono</span>
+            </button>
+
+            <!-- Dropdown menu -->
+            <div id="dropdownDelay"
+              class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+              <ul class="flex flex-wrap justify-center items-center max-h-72 overflow-y-auto gap-4 py-2 px-3 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDelayButton">
+                <li *ngFor="let icono of iconos" (click)="setIcon(icono.Nombre)">
+                  <i class="{{icono.Nombre}} text-lg"></i>
+                </li>
+              </ul>
+            </div>
           </div>
+
           <div>
             <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Saldo</label>
             <input type="number" name="price" id="price" [(ngModel)]="saldo"

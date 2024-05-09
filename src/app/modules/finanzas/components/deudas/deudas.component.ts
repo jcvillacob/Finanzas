@@ -18,6 +18,7 @@ export class DeudasComponent implements AfterViewInit {
   chartInstance: Chart | null = null;
   usuarioID!: number;
   cuentas: any[] = [];
+  iconos!: any[];
 
   /* Para crear Deuda */
   nombre!: string;
@@ -41,6 +42,10 @@ export class DeudasComponent implements AfterViewInit {
     initFlowbite();
   }
 
+  setIcon(icon: string) {
+    this.icono = icon
+  }
+
   getDeudas(){
     this.finanzasService.getDeudas().subscribe(data => {
       this.deudas = data.filter(d => d.MontoPendiente > 0);
@@ -48,6 +53,9 @@ export class DeudasComponent implements AfterViewInit {
       this.getPagosDeuda(this.deudaSelected.DeudaID);
       this.finanzasService.getCuentas().subscribe(data => {
         this.cuentas = data;
+        this.finanzasService.getIconos().subscribe(data => {
+          this.iconos = data;
+        })
       });
     });
   }
