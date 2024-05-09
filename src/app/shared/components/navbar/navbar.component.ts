@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { AuthService } from 'src/app/core/authentication/auth.service';
 
 @Component({
@@ -6,7 +6,7 @@ import { AuthService } from 'src/app/core/authentication/auth.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent {
+export class NavbarComponent implements AfterViewInit {
   usuarioLogged: any = {}
   nombre: string = 'Juan Camilo';
   iniciales: string = '';
@@ -18,6 +18,7 @@ export class NavbarComponent {
     this.iniciales = this.nombre.split(' ')[0][0] + this.nombre.split(' ')[1][0];
   }
 
-
+  ngAfterViewInit() {
+  }
 
 }

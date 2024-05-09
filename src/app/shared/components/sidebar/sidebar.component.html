@@ -10,3 +10,22 @@
   <a (click)="logout()" class="w-12 h-12 rounded-full flex justify-center items-center hover:cursor-pointer"><i
       class="fa-solid fa-right-from-bracket"></i></a>
 </div>
+
+
+<!-- Botón para abrir el menú -->
+<div class="fixed top-6 right-6 z-50 flex sm:hidden">
+  <i class="fa-solid fa-bars-staggered text-2xl" (click)="toggleMenu()"></i>
+</div>
+
+<!-- Menú lateral -->
+<div #menu class="side-menu fixed -left-64 top-0 w-64 h-full z-50 bg-gray-100 shadow-xl">
+  <!-- Contenido del menú -->
+  <div class="p-5 pt-8  ">
+    <h1 class="text-lg font-bold">Menú</h1>
+    <ul>
+      <li><a href="#">Inicio</a></li>
+      <li><a href="#">Servicios</a></li>
+      <li><a href="#">Contacto</a></li>
+    </ul>
+  </div>
+</div>
