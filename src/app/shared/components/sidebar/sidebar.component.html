@@ -1,31 +1,30 @@
-<div
-  class="fixed flex flex-row sm:flex-col bottom-0 sm:top-0 left-0 w-11/12 sm:w-auto max-w-full sm:max-w-20 justify-center sm:justify-center items-center py-3 mx-4 mb-2 sm:mb-0 gap-5 bg-black sm:bg-transparent shadow-2xl sm:shadow-none rounded-3xl text-xl text-gray-600">
-  <a routerLink="home" [routerLinkActive]="'bg-gray-600 text-white'"
-    class="w-12 h-12 rounded-full flex justify-center items-center"><i class="fa-solid fa-house"></i></a>
-  <a routerLink="finanzas" [routerLinkActive]="'bg-gray-600 text-white'"
-    class="w-12 h-12 rounded-full flex justify-center items-center"><i class="fa-solid fa-coins"></i></a>
-  <a class="w-12 h-12 rounded-full flex justify-center items-center"><i class="fa-solid fa-book"></i></a>
-  <!-- <a class="w-12 h-12 rounded-full flex justify-center items-center"><i class="fa-solid fa-dumbbell"></i></a> -->
-  <a class="w-12 h-12 rounded-full flex justify-center items-center"><i class="fa-solid fa-gear"></i></a>
-  <a (click)="logout()" class="w-12 h-12 rounded-full flex justify-center items-center hover:cursor-pointer"><i
-      class="fa-solid fa-right-from-bracket"></i></a>
-</div>
+<div #menu class="fixed -left-full top-0 w-full h-screen z-50 bg-transparent transition-left duration-500 ease-out flex justify-center items-center">
+  <!-- Contenido del menú -->
+  <div class="">
 
+    <div class="fixed top-0 left-0 h-screen w-screen flex flex-col">
+      <span #menuItem class="w-full h-1/4 -left-full bg-black relative"></span>
+      <span #menuItem class="w-full h-1/4 -left-full bg-black relative"></span>
+      <span #menuItem class="w-full h-1/4 -left-full bg-black relative"></span>
+      <span #menuItem class="w-full h-1/4 -left-full bg-black relative"></span>
+    </div>
+    <nav>
+      <ul #items class="relative main-menu w-full h-full flex flex-col gap-3">
+        <li class="-top-10 opacity-0"><a routerLink="home" class="relative text-7xl text-gray-200 font-bold z-50" [routerLinkActive]="'text-white'">Home</a></li>
+        <li class="-top-10 opacity-0"><a routerLink="finanzas" class="relative text-7xl text-gray-200 font-bold z-50" [routerLinkActive]="'text-white'">Finanzas</a></li>
+        <li class="-top-10 opacity-0"><a routerLink="servicios" class="relative text-7xl text-gray-200 font-bold z-50">Servicios</a></li>
+        <li class="-top-10 opacity-0"><a routerLink="contacto" class="relative text-7xl text-gray-200 font-bold z-50">Contacto</a></li>
+      </ul>
+    </nav>
+    <div class="header-nav-footer">
+      <ul class="social-links">
+        <li><a (click)="logout()">Salir</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
 
 <!-- Botón para abrir el menú -->
-<div class="fixed top-6 right-6 z-50 flex sm:hidden">
-  <i class="fa-solid fa-bars-staggered text-2xl" (click)="toggleMenu()"></i>
-</div>
-
-<!-- Menú lateral -->
-<div #menu class="side-menu fixed -left-64 top-0 w-64 h-full z-50 bg-gray-100 shadow-xl">
-  <!-- Contenido del menú -->
-  <div class="p-5 pt-8  ">
-    <h1 class="text-lg font-bold">Menú</h1>
-    <ul>
-      <li><a href="#">Inicio</a></li>
-      <li><a href="#">Servicios</a></li>
-      <li><a href="#">Contacto</a></li>
-    </ul>
-  </div>
+<div class="fixed top-8 right-8 z-50 flex p-2 bg-white rounded-lg shadow-md">
+  <i class="fa-solid fa-bars-staggered text-3xl text-black hover:cursor-pointer" (click)="toggleMenu()"></i>
 </div>
