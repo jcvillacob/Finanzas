@@ -1,19 +1,19 @@
-<div #menu class="fixed -left-full top-0 w-full h-screen z-50 bg-transparent transition-left duration-500 ease-out flex justify-center items-center">
+<div #menu class="fixed -left-full top-0 w-screen h-screen z-50 bg-transparent transition-left duration-500 ease-out flex justify-center items-center">
   <!-- Contenido del menú -->
   <div class="">
 
-    <div class="fixed top-0 left-0 h-screen w-screen flex flex-col">
-      <span #menuItem class="w-full h-1/4 -left-full bg-black relative"></span>
-      <span #menuItem class="w-full h-1/4 -left-full bg-black relative"></span>
-      <span #menuItem class="w-full h-1/4 -left-full bg-black relative"></span>
-      <span #menuItem class="w-full h-1/4 -left-full bg-black relative"></span>
+    <div class="fixed top-0 -left-full h-screen w-full flex flex-col">
+      <span #menuItem class="w-full h-1/4 left-0 bg-black relative"></span>
+      <span #menuItem class="w-full h-1/4 left-0 bg-black relative"></span>
+      <span #menuItem class="w-full h-1/4 left-0 bg-black relative"></span>
+      <span #menuItem class="w-full h-1/4 left-0 bg-black relative"></span>
     </div>
     <nav>
-      <ul #items class="relative main-menu w-full h-full flex flex-col gap-3">
-        <li class="-top-10 opacity-0"><a routerLink="home" class="relative text-7xl text-gray-200 font-bold z-50" [routerLinkActive]="'text-white'">Home</a></li>
-        <li class="-top-10 opacity-0"><a routerLink="finanzas" class="relative text-7xl text-gray-200 font-bold z-50" [routerLinkActive]="'text-white'">Finanzas</a></li>
-        <li class="-top-10 opacity-0"><a routerLink="servicios" class="relative text-7xl text-gray-200 font-bold z-50">Servicios</a></li>
-        <li class="-top-10 opacity-0"><a routerLink="contacto" class="relative text-7xl text-gray-200 font-bold z-50">Contacto</a></li>
+      <ul class="relative main-menu w-full h-full flex flex-col gap-3">
+        <li class="overflow-hidden"><a #items routerLink="home" class="relative -top-60 text-7xl text-gray-200 font-bold z-50" [routerLinkActive]="'text-white'">Home</a></li>
+        <li class="overflow-hidden"><a #items routerLink="finanzas" class="relative -top-60 text-7xl text-gray-200 font-bold z-50" [routerLinkActive]="'text-white'">Finanzas</a></li>
+        <li class="overflow-hidden"><a #items routerLink="servicios" class="relative -top-60 text-7xl text-gray-200 font-bold z-50">Servicios</a></li>
+        <li class="overflow-hidden"><a #items routerLink="contacto" class="relative -top-60 text-7xl text-gray-200 font-bold z-50">Contacto</a></li>
       </ul>
     </nav>
     <div class="header-nav-footer">
